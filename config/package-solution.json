@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "resource-allocation-client-side-solution",
+    "id": "9433067c-e99a-4715-8e8d-f8ff1afef755",
+    "version": "1.7.0.6",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.16.1"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "resource-allocation description"
+      },
+      "longDescription": {
+        "default": "resource-allocation description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "resource-allocation Feature",
+        "description": "The feature that activates elements of the resource-allocation solution.",
+        "id": "b625c078-fcc9-495a-80eb-8a0f9c8862d7",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/resource-allocation.sppkg"
+  }
+}

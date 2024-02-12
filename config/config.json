@@ -1,0 +1,19 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "allocator-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/allocator/AllocatorWebPart.js",
+          "manifest": "./src/webparts/allocator/AllocatorWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "AllocatorWebPartStrings": "lib/webparts/allocator/loc/{locale}.js",
+    "ControlStrings": "node_modules/@pnp/spfx-controls-react/lib/loc/{locale}.js"
+  }
+}

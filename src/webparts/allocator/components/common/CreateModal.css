@@ -1,0 +1,17 @@
+.main-178 {
+    min-height: 140px;
+    min-width: 355px;
+}
+
+.alert-success{
+    min-height: 140px !important;
+    min-width: 355px !important;
+}
+
+.alet-msg{
+    font-size: large;
+}
+.modal-title-custom{
+    font-size: 18px;
+    font-weight: bold;
+} 
