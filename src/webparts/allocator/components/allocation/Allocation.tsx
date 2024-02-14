@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SharePointServiceProxy from "../common/sp-proxy/SharepointServiceProxy";
 import { IAllocatorProps } from "../IAllocatorProps";
@@ -9,9 +9,10 @@ import "ag-grid-community/styles/ag-theme-alpine.css"; // Optional theme CSS
 import moment from "moment";
 // import { ComboBox, Modal } from "office-ui-fabric-react";
 import Pagination from "../common/Pagination";
-import SuccessModal from "../common/SuccessModal";
+ import SuccessModal from "../common/SuccessModal";
 import { ColDef, } from 'ag-grid-community';
 import { ComboBox, IComboBox, IComboBoxOption, IComboBoxStyles, IDropdownOption, IDropdownStyles, Modal } from "@fluentui/react";
+
 // import { parse } from "date-fns";
 
 const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
@@ -30,10 +31,13 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
     BillableTill: "",
     Utilization_Percent: "",
   });
+  const [globalMsg, setGlobalMsg] = useState<boolean>(false);
   const [updatemodal, setUpdateModal] = useState<string>("");
   const [getprojectEmp, setProjectEmployee] = useState<any>([]);
   const [getselectedEmp, setselectedEmp] = useState<any>([]);
   const [currentUser, setCurrentUser] = useState<any>([]);
+
+
 
   // weeks //
   const [startDate, setStartDate] = useState(null);
@@ -41,7 +45,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
   const [selectedWeek, setSelectedWeek] = useState<any>("");
   console.log(selectedWeek)
 
-
+  var gridRef: any = useRef();
   useEffect(() => {
     getProjectAllocationListData("")
     getAllProject()
@@ -93,7 +97,9 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
         top: 500
       });
 
-     
+
+
+
 
       if (loggedUser.Groups.length === 0) {
         //  LoginFilter = `EmployeeId/EmpEmail eq ${loggedUser?.User?.Email}`
@@ -103,10 +109,10 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
       }
       else if (loggedUser.Groups[0].Title === "RA_Manager") {
 
-        let newarray:any = projectListItems.filter((project: any) => {
-            return project?.Project_ID?.ProjectManager === loggedUser?.User?.Title;
-          })
-        
+        let newarray: any = projectListItems.filter((project: any) => {
+          return project?.Project_ID?.ProjectManager === loggedUser?.User?.Title;
+        })
+
         setProjectsAllocation(newarray)
 
         //Below is using one array filter projectallocation
@@ -320,6 +326,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
             const parsedData = data ? JSON.parse(data) : null;
             return parsedData?.Billiability !== undefined ? parsedData.Billiability + "%" : null;
           },
+          colId: 'Billiability_1',
           cellClass: (params: any) => ['customcss'],
         },
         {
@@ -336,6 +343,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
             const parsedData = data ? JSON.parse(data) : null;
             return parsedData?.Utilization !== undefined ? parsedData.Utilization + "%" : null;
           },
+          colId: 'Utilization_1',
         },
       ]
     },
@@ -355,6 +363,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
             let data = JSON.parse(params?.data?.Weak2)?.Billiability
             return data === undefined ? null : data + "%";
           },
+          colId: 'Billiability_2',
           cellClass: (params: any) => ['customcss'],
         },
         {
@@ -370,6 +379,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
             return data === undefined ? null : data + "%";
           },
           cellClass: (params: any) => ['customcss'],
+          colId: 'Utilization_2',
         },
       ]
     },
@@ -389,6 +399,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
             let data = JSON.parse(params?.data?.Weak3)?.Billiability
             return data === undefined ? null : data + "%";
           },
+          colId: 'Billiability_3',
           cellClass: (params: any) => ['customcss'],
         },
         {
@@ -404,6 +415,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
             return data === undefined ? null : data + "%";
           },
           cellClass: (params: any) => ['customcss'],
+          colId: 'Utilization_3',
         },
       ]
     },
@@ -413,6 +425,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
       children: [
         {
           field: "Billiability",
+          colId: 'Billiability_4',
           headerClass: "customcss",
           editable: (currentUser && currentUser.Groups && currentUser.Groups.length === 0)
             || (currentUser && currentUser.Groups && currentUser.Groups.length > 0 && currentUser.Groups[0].Title === "RA_Manager") ? false : true,
@@ -427,6 +440,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
         },
         {
           field: "Utilization",
+          colId: 'Utilization_4',
           headerClass: "customcss",
           editable: (currentUser && currentUser.Groups && currentUser.Groups.length === 0)
             || (currentUser && currentUser.Groups && currentUser.Groups.length > 0 && currentUser.Groups[0].Title === "RA_Manager") ? false : true,
@@ -447,6 +461,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
       children: [
         {
           field: "Billiability",
+          colId: 'Billiability_5',
           headerClass: "customcss",
           editable: (currentUser && currentUser.Groups && currentUser.Groups.length === 0)
             || (currentUser && currentUser.Groups && currentUser.Groups.length > 0 && currentUser.Groups[0].Title === "RA_Manager") ? false : true,
@@ -461,6 +476,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
         },
         {
           field: "Utilization",
+          colId: 'Utilization_5',
           headerClass: "customcss",
           editable: (currentUser && currentUser.Groups && currentUser.Groups.length === 0)
             || (currentUser && currentUser.Groups && currentUser.Groups.length > 0 && currentUser.Groups[0].Title === "RA_Manager") ? false : true,
@@ -481,6 +497,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
       children: [
         {
           field: "Billiability",
+          colId: 'Billiability_6',
           headerClass: "customcss",
           editable: (currentUser && currentUser.Groups && currentUser.Groups.length === 0)
             || (currentUser && currentUser.Groups && currentUser.Groups.length > 0 && currentUser.Groups[0].Title === "RA_Manager") ? false : true,
@@ -495,6 +512,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
         },
         {
           field: "Utilization",
+          colId: 'Utilization_6',
           headerClass: "customcss",
           editable: (currentUser && currentUser.Groups && currentUser.Groups.length === 0)
             || (currentUser && currentUser.Groups && currentUser.Groups.length > 0 && currentUser.Groups[0].Title === "RA_Manager") ? false : true,
@@ -515,6 +533,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
       children: [
         {
           field: "Billiability",
+          colId: 'Billiability_7',
           headerClass: "customcss",
           editable: (currentUser && currentUser.Groups && currentUser.Groups.length === 0)
             || (currentUser && currentUser.Groups && currentUser.Groups.length > 0 && currentUser.Groups[0].Title === "RA_Manager") ? false : true,
@@ -529,6 +548,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
         },
         {
           field: "Utilization",
+          colId: 'Utilization_7',
           headerClass: "customcss",
           editable: (currentUser && currentUser.Groups && currentUser.Groups.length === 0)
             || (currentUser && currentUser.Groups && currentUser.Groups.length > 0 && currentUser.Groups[0].Title === "RA_Manager") ? false : true,
@@ -549,6 +569,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
       children: [
         {
           field: "Billiability",
+          colId: 'Billiability_8',
           headerClass: "customcss",
           editable: (currentUser && currentUser.Groups && currentUser.Groups.length === 0)
             || (currentUser && currentUser.Groups && currentUser.Groups.length > 0 && currentUser.Groups[0].Title === "RA_Manager") ? false : true,
@@ -563,6 +584,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
         },
         {
           field: "Utilization",
+          colId: 'Utilization_8',
           headerClass: "customcss",
           editable: (currentUser && currentUser.Groups && currentUser.Groups.length === 0)
             || (currentUser && currentUser.Groups && currentUser.Groups.length > 0 && currentUser.Groups[0].Title === "RA_Manager") ? false : true,
@@ -787,6 +809,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
       children: [
         {
           field: "Billiability",
+          colId:'Billiability_15',
           headerClass: "customcss",
           editable: (currentUser && currentUser.Groups && currentUser.Groups.length === 0)
             || (currentUser && currentUser.Groups && currentUser.Groups.length > 0 && currentUser.Groups[0].Title === "RA_Manager") ? false : true,
@@ -812,6 +835,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
             return data === undefined ? null : data + "%";
           },
           cellClass: (params: any) => ['customcss'],
+          colId:'Utilization_15',
         },
       ]
     },
@@ -1958,6 +1982,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
             return data === undefined ? null : data + "%";
           },
           cellClass: (params: any) => ['customcss'],
+
         },
         {
           field: "Utilization",
@@ -2112,51 +2137,58 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
       });
   }
 
-
-
-  // validation 
   function getEmployeeallocatedwithProject(ProjectName: any) {
     let getemployeewithallocatedProject = ProjectsAllocation.filter((ftr) => ftr?.Project_ID?.ProjectName === ProjectName).map((itr) => ({
       EmployeeName: itr?.EmployeeId?.Name
     }));
     setProjectEmployee(getemployeewithallocatedProject)
   }
+  // validation
+  function validate() {
+    // console.log(globalMsg)
+    if (
+      ProjectWithEmployee?.Project_IDId === "" ||
+      ProjectWithEmployee?.EmployeeIdId === "" ||
+      ProjectWithEmployee?.BillableFrom === "" ||
+      ProjectWithEmployee?.BillableTill === "" ||
+      ProjectWithEmployee?.Utilization_Percent === "" ||
+      ProjectWithEmployee?.Billiability === "") {
+      setGlobalMsg(true);
+      return false;
+    } else {
+      setGlobalMsg(false);
+      return true;
 
-  async function addAllocateResource() {
-      let isemployeeallocatedwithsameproject = (getprojectEmp.filter((ftr: any) => ftr?.EmployeeName === getselectedEmp).length > 0)
-      if (isemployeeallocatedwithsameproject) {
-        setShow(false)
-        setUpdateModal("ProjectAllocated")
-      }
-      else {
-        await _sharePointServiceProxy.addItem("ProjectsAllocations", ProjectWithEmployee, [], true).then(() => {
-          getProjectAllocationListData("")
-          setUpdateModal("ProjectUpdated");
-          setShow(false)
-        });
-
-      }
+    }
   }
 
 
 
-
-  // VALIDATION FOR ALLOCATION POPUP
+  async function addAllocateResource() {
+if(validate()){
+    let isemployeeallocatedwithsameproject = (getprojectEmp.filter((ftr: any) => ftr?.EmployeeName === getselectedEmp).length > 0)
+    if (isemployeeallocatedwithsameproject) {
+     setShow(false)
+      setUpdateModal("ProjectAllocated")
+    }
+    else {
+      await _sharePointServiceProxy.addItem("ProjectsAllocations", ProjectWithEmployee, [], true).then(() => {
+        setGlobalMsg(false);
+        setProjectWithEmployee({
+          Project_IDId: "", EmployeeIdId: "", Year: `${new Date().getFullYear()}`, Billiability: "",
+          BillableFrom: "",
+          BillableTill: "",
+          Utilization_Percent: "",
+        });
+        setShow(false)        
+        getProjectAllocationListData("")
+        setUpdateModal("ProjectUpdated");
+        
+      });
+    }
+    }
  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  }
 
   const comboBoxStyles: Partial<IComboBoxStyles> = { root: { maxWidth: 300 } };
 
@@ -2341,7 +2373,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
       // disabled: currentWeek > i ? true : false,
     });
   }
-  console.log("WeekOptions", WeekOptions)
+  //console.log("WeekOptions", WeekOptions)
 
   React.useEffect(() => {
     if (startDate && endDate) {
@@ -2367,6 +2399,50 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
     dropdown: { width: 215 },
   };
 
+  const onBtnExport = useCallback(() => {
+    debugger
+    gridRef.current.api.exportDataAsCsv({
+      processCellCallback: (params: any) => {
+       // console.log("ParamsData", params.value
+        //);
+        if (params.column.colId.include('Billiability_1') || params.column.colId.include('Utilization_1')) {
+          return JSON.parse(params.node.data['Weak' + params.column.colId.split("_")[1]])[params.column.colId.split("_")[0]];
+        }
+        return params.value;
+      },
+    });
+
+  }, []);
+
+  // const onBtnExport = useCallback(() => {
+  //   debugger;
+  //   gridRef.current.api.exportDataAsCsv({
+  //     processCellCallback: (params: any) => {
+  //       const columnId = params.column.colId;
+  //       console.log("Column ID:", columnId);
+        
+  //       if (columnId.startsWith('Billiability_') || columnId.startsWith('Utilization_')) {
+  //         const weekNumber = columnId.substring(columnId.lastIndexOf('_') + 1);
+  //         console.log("Week Number:", weekNumber);
+          
+  //         const weekData = params.node.data['Weak' + weekNumber];
+  //         console.log("Week Data:", weekData);
+          
+  //         if (weekData && weekData[columnId.split("_")[0]]) {
+  //           console.log("Property Value:", weekData[columnId.split("_")[0]]);
+  //           return weekData[columnId.split("_")[0]];
+  //         } else {
+  //           console.log("Week data or property not found");
+  //           return null;
+  //         }
+  //       }
+        
+  //       return params.value;
+  //     },
+  //   });
+  // }, []);
+  
+  
 
   return (
     <>
@@ -2376,16 +2452,20 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           setModal={setUpdateModal}
           message={"ProjectAllocation Updated Successfully"}
           showModal={true}
+         
+          
         />
       )}
       {updatemodal === "ProjectAllocated" && (
         <SuccessModal
-          pageType={"warning"}
+          pageType={"Warning"}
           setModal={setUpdateModal}
           message={"Already Employee engaged with you have selected Project"}
           showModal={true}
         />
       )}
+ 
+
       <Modal
         isOpen={show}
         onDismiss={() => setShow(false)}
@@ -2416,7 +2496,16 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
                       placeholder="Project Name"
                       onChange={(e: any, selected: any) => { setProjectWithEmployee({ ...ProjectWithEmployee, Project_IDId: selected.key }); getEmployeeallocatedwithProject(selected.text) }}
                     />
-                    
+                    {!ProjectWithEmployee?.Project_IDId && (
+                              <p
+                                className={`${globalMsg
+                                  ? "d-block text-danger mb-0 error-feild-size"
+                                  : "d-none"
+                                  }`}
+                              >
+                                *This field is mandatory
+                              </p>
+                            )}
 
                   </div>
                   <div className="col-md-6">
@@ -2433,7 +2522,19 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
                       placeholder="Employee Name"
                       onChange={(e: any, selected: any) => { setProjectWithEmployee({ ...ProjectWithEmployee, EmployeeIdId: selected.key }), setselectedEmp(selected.text) }}
                     />
-                   
+                    {!ProjectWithEmployee?.EmployeeIdId && (
+                              <p
+                                className={`${globalMsg
+                                  ? "d-block text-danger mb-0 error-feild-size"
+                                  : "d-none"
+                                  }`}
+                              >
+                                *This field is mandatory
+                              </p>
+                            )}
+
+                    
+
 
                   </div>
 
@@ -2457,7 +2558,16 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
                       name="BillableFrom"
 
                     />
-                   
+                    {!ProjectWithEmployee?.BillableFrom && (
+                              <p
+                                className={`${globalMsg
+                                  ? "d-block text-danger mb-0 error-feild-size"
+                                  : "d-none"
+                                  }`}
+                              >
+                                *This field is mandatory
+                              </p>
+                            )}
                   </div>
                   <div className="col-md-6">
                     <label htmlFor="inputCity" className="form-label">
@@ -2478,6 +2588,16 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
                       placeholder="Billiable Till"
                       name="BillableTill"
                     />
+                   {!ProjectWithEmployee?.BillableTill && (
+                              <p
+                                className={`${globalMsg
+                                  ? "d-block text-danger mb-0 error-feild-size"
+                                  : "d-none"
+                                  }`}
+                              >
+                                *This field is mandatory
+                              </p>
+                            )}
 
                   </div>
                   <div className="col-md-6">
@@ -2499,7 +2619,16 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
                       <option value="50">50%</option>
                       <option value="100">100%</option>
                     </select>
-                    
+                    {!ProjectWithEmployee?.Billiability && (
+                              <p
+                                className={`${globalMsg
+                                  ? "d-block text-danger mb-0 error-feild-size"
+                                  : "d-none"
+                                  }`}
+                              >
+                                *This field is mandatory
+                              </p>
+                            )}
                   </div>
                   <div className="col-md-6">
                     <label htmlFor="inputState" className="form-label">
@@ -2521,7 +2650,16 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
                       <option value="75">75%</option>
                       <option value="100">100%</option>
                     </select>
-                   
+                    {!ProjectWithEmployee?.Utilization_Percent && (
+                              <p
+                                className={`${globalMsg
+                                  ? "d-block text-danger mb-0 error-feild-size"
+                                  : "d-none"
+                                  }`}
+                              >
+                                *This field is mandatory
+                              </p>
+                            )}
                   </div>
                   <div className="col-md-6">
                     <label htmlFor="inputState" className="form-label">
@@ -2548,12 +2686,16 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
                 <button
                   type="button"
                   className="btn btn-secondary btn-wid me-2"
-                  onClick={() => { setShow(false) }}
+                  onClick={() => {
+                    setShow(false),
+                      setGlobalMsg(false),
+                      setUpdateModal("");
+                  }}
                 >
                   Cancel
                 </button>
                 <button
-                  onClick={() => addAllocateResource()}
+                  onClick={addAllocateResource}
                   type="button"
                   className="btn btn-color btn-primary btn-wid"
 
@@ -2604,6 +2746,14 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
                     </span>
                   </h3>
                 </div>
+                <div className="col-6 text-end">
+                  <button
+                    className="btn btn-primary mb-2 pt-2 ms-1 me-1 "
+                    onClick={onBtnExport}
+                  >
+                    Download Bench Report
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -2640,6 +2790,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
                         style={{ height: 425 }}
                       >
                         <AgGridReact
+                          ref={gridRef}
                           rowData={paginatedArrProject}
                           columnDefs={columnDefs}
                           defaultColDef={defaultColDef}

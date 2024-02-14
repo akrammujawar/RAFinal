@@ -20,6 +20,7 @@
     "@microsoft/sp-office-ui-fabric-core": "1.16.1",
     "@microsoft/sp-property-pane": "1.16.1",
     "@microsoft/sp-webpart-base": "1.16.1",
+    "@pnp/spfx-controls-react": "^3.17.0",
     "@tippyjs/react": "^4.2.6",
     "ag-grid-react": "^29.1.0",
     "bootstrap": "^5.3.2",
