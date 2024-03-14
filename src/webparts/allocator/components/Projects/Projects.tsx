@@ -99,7 +99,26 @@ const Projects: React.FunctionComponent<IAllocatorProps> = (props: any) => {
 
 
   const navigate = useNavigate();
+  const [leadLink, setLeadLink] = useState<any>(false)
 
+  console.log(leadLink)
+  useEffect(() => {
+    async function getAuthorized() {
+      var currentUser = await _SharepointServiceProxy.getCurrentUser();
+      if (currentUser.Groups[0]?.Title === "RA_Owner") {
+        setLeadLink(true) 
+      }
+      else {
+        // alert("You are not authorised for Client");
+        setLeadLink(false)
+        if (currentUser.Groups[0]?.Title !== "RA_Owner") {
+          window.location.replace("https://bluebenz0.sharepoint.com/sites/BBD_Internal/ResourceAllocation/_layouts/15/workbench.aspx#/Allocation")
+        }
+      }
+    }
+    getAuthorized()
+  }, [])
+  
 
 
   const columnDefs: any = [
@@ -176,7 +195,7 @@ const Projects: React.FunctionComponent<IAllocatorProps> = (props: any) => {
       headerName: "Action",
       field: "Image",
       cellRenderer: Action,
-      cellRendererParams: { context: props?.context, webURL: props?.webURL },
+      cellRendererParams: { context: props?.context, webURL: props?.webURL,getToken: getToken },
       width: 100,
 
     },

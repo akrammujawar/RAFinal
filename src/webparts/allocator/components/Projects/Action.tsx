@@ -10,6 +10,7 @@ import _ from "lodash";
 import SuccessModal from "../common/SuccessModal";
 
 const action: React.FunctionComponent<IAllocatorProps> = (props: any) => {
+  const { getToken } = props;
   const _SharepointServiceProxy: SharepointServiceProxy =
     new SharepointServiceProxy(props?.context, props?.webURL);
   const [show, setShow] = useState<boolean>(false);
@@ -180,7 +181,8 @@ async function getProjectManagerTypeahed() {
     _SharepointServiceProxy
       .updateItem("Project", itemId, updateDetails, [], true).then(() => {
          setShow(false);
-        setUpdateModal("ProjectUpdated");        
+        setUpdateModal("ProjectUpdated");    
+        getToken()    
       });     
   };
 

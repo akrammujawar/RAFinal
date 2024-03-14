@@ -548,6 +548,7 @@ const EditEmployee: React.FunctionComponent<IAllocatorProps> = (props: any) => {
                       onChange={(e) => {
                         onChangeFormVal(e, "Name");
                       }}
+                      disabled
                     />
                   </div>
 
@@ -559,6 +560,7 @@ const EditEmployee: React.FunctionComponent<IAllocatorProps> = (props: any) => {
                       onChange={(e) => {
                         onChangeFormVal(e, "Practice");
                       }}
+                      disabled
                     />
                   </div>
                   {/* <div className="col-md-4">
@@ -579,6 +581,7 @@ const EditEmployee: React.FunctionComponent<IAllocatorProps> = (props: any) => {
                       onChange={(e) => {
                         onChangeFormVal(e, "JoiningDate");
                       }}
+                      disabled
                     />
                   </div>
 

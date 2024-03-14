@@ -40,6 +40,30 @@ const Client: React.FunctionComponent<IAllocatorProps> = (props: any) => {
     GSTN: ""
   });
 
+  const [leadLink, setLeadLink] = useState<any>(false)
+
+  console.log(leadLink)
+  useEffect(() => {
+    async function getAuthorized() {
+      var currentUser = await _SharepointServiceProxy.getCurrentUser();
+      if (currentUser.Groups[0]?.Title === "RA_Owner") {
+        setLeadLink(true) 
+      }
+      else {
+        // alert("You are not authorised for Client");
+        setLeadLink(false)
+        if (currentUser.Groups[0]?.Title !== "RA_Owner") {
+          window.location.replace("https://bluebenz0.sharepoint.com/sites/BBD_Internal/ResourceAllocation/_layouts/15/workbench.aspx#/Allocation")
+        }
+        // else if (currentUser.GroupLeads.filter((ftr: any) => ftr.Title === "PRPLeads").length > 0) {
+        //   window.location.replace("https://bluebenz0.sharepoint.com/sites/BBD_Internal/PRPortal/_layouts/15/workbench.aspx#/LeadDashboard")
+        // }
+      }
+    }
+    getAuthorized()
+
+
+  }, [])
   useEffect(() => {
     getClients();
   }, [])
@@ -219,13 +243,32 @@ const Client: React.FunctionComponent<IAllocatorProps> = (props: any) => {
       if (filteronduplicate) {
         debugger
         setOpenModal("ClientDuplicate");
-
+        setData({
+          Name: "",
+          BusinessDomain: "",
+          Email: "",
+          ContactNumber: "",
+          Geography: "",
+          ContactName: "",
+          Address: "",
+          GSTN: ""
+        });
       } else {
         await _SharepointServiceProxy.addItem("Client", data, [], true);
         setGlobalMsg(false);
-        setData({});
+        setData({
+          Name: "",
+          BusinessDomain: "",
+          Email: "",
+          ContactNumber: "",
+          Geography: "",
+          ContactName: "",
+          Address: "",
+          GSTN: ""
+        });
         setShow(false);
         setOpenModal("ClientAdded");
+        getClients()
       }
     }
 
@@ -245,9 +288,9 @@ const Client: React.FunctionComponent<IAllocatorProps> = (props: any) => {
         )}
         {openmodal === "ClientDuplicate" && (
           <SuccessModal
-            pageType={"success"}
+            pageType={"warning"}
             setModal={setOpenModal}
-            message={"Same client you can not add"}
+            message={"Same client you cannot add"}
             showModal={true}
           />
         )}

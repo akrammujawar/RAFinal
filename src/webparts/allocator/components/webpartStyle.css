@@ -693,3 +693,82 @@
 .ms-Callout .ms-Callout-main{
     max-height: 260px !important;
 }
+
+
+
+/* Date */
+.marquee-container {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  }
+  
+  .marquee-content {
+  display: inline-block;
+  animation: marquee 10s linear infinite;
+  animation-delay: 1s;
+  }
+  
+  @keyframes marquee {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+  }
+  .red-dot::before {
+  content: "•"; /* Unicode character for a bullet (•) */
+  color: red; /* Color for the bullet */
+  margin-right: 5px; /* Adjust the spacing between the dot and text as needed */
+  font-size: 20px;
+  }
+  
+  
+  .ribbon {
+  /* height: 188px; */
+  position: relative;
+  margin-bottom: 30px;
+  /* background: url(https://html5book.ru/wp-content/uploads/2015/10/snow-road.jpg); */
+  background-size: cover;
+  text-transform: uppercase;
+  color: white;
+  }
+  .ribbon3 {
+  width: 150px;
+  height: 30px;
+  line-height: 30px;
+  padding-left: 15px;
+  position: absolute;
+  left: -8px;
+  z-index: 1;
+  /* background: #59324C; */
+  background: black;
+  font-size: 12px;
+  }
+  .ribbon3:before, .ribbon3:after {
+  content: "";
+  position: absolute;
+  }
+  .ribbon3:before {
+  height: 0;
+  width: 0;
+  top: -8.5px;
+  left: 0.1px;
+  border-bottom: 9px solid black;
+  border-left: 9px solid transparent;
+  }
+  .ribbon3:after {
+  height: 0;
+  width: 0;
+  right: -14.5px;
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent;
+  border-left: 15px solid black;
+  }
+  .custom-card {
+    background: var(--unnamed-color-ffffff) 0% 0% no-repeat padding-box;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 6px #00000026;
+    border-radius: 2px;
+    opacity: 1;
+    /* border: 1px solid transparent !important; */
+    height: 30px !important;
+    /* border: 1px solid rgb(134, 129, 129); */
+  }

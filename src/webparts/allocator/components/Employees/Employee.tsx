@@ -5,7 +5,7 @@ import { IAllocatorProps } from "../IAllocatorProps";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { differenceInMonths } from "date-fns";
 import Pagination from "../common/Pagination";
 import EditEmployee from "./EditEmployee";
@@ -17,6 +17,25 @@ const Employee: React.FunctionComponent<IAllocatorProps> = (props) => {
   const [paginatedArrProject, setPaginatedArr] = useState<any>()
   const [rowData, setRowData] = useState([]);
   const [updateItem, setupdateItem] = useState<any>([])
+  const [leadLink, setLeadLink] = useState<any>(false)
+
+  console.log(leadLink)
+  useEffect(() => {
+    async function getAuthorized() {
+      var currentUser = await _sharePointServiceProxy.getCurrentUser();
+      if (currentUser.Groups[0]?.Title === "RA_Owner") {
+        setLeadLink(true) 
+      }
+      else {
+        // alert("You are not authorised for Client");
+        setLeadLink(false)
+        if (currentUser.Groups[0]?.Title !== "RA_Owner") {
+          window.location.replace("https://bluebenz0.sharepoint.com/sites/BBD_Internal/ResourceAllocation/_layouts/15/workbench.aspx#/Allocation")
+        }
+      }
+    }
+    getAuthorized()
+  }, [])
 
   React.useEffect(() => {
     const fetchData = async () => {

@@ -19,7 +19,25 @@ const QuickReport: React.FunctionComponent<IAllocatorProps> = (props: any) => {
   const navigate = useNavigate();
 
 
+  const [leadLink, setLeadLink] = useState<any>(false)
 
+  console.log(leadLink)
+  useEffect(() => {
+    async function getAuthorized() {
+      var currentUser = await _sharePointServiceProxy.getCurrentUser();
+      if (currentUser.Groups[0]?.Title === "RA_Owner") {
+        setLeadLink(true)
+      }
+      else {
+        // alert("You are not authorised for Quick report");
+        setLeadLink(false)
+        if (currentUser.Groups[0]?.Title !== "RA_Owner") {
+          window.location.replace("https://bluebenz0.sharepoint.com/sites/BBD_Internal/ResourceAllocation/_layouts/15/workbench.aspx#/Allocation")
+        }
+      }
+    }
+    getAuthorized()
+  }, [])
 
 
   useEffect(() => {

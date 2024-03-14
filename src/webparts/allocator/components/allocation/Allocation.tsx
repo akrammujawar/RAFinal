@@ -9,9 +9,10 @@ import "ag-grid-community/styles/ag-theme-alpine.css"; // Optional theme CSS
 import moment from "moment";
 // import { ComboBox, Modal } from "office-ui-fabric-react";
 import Pagination from "../common/Pagination";
- import SuccessModal from "../common/SuccessModal";
+import SuccessModal from "../common/SuccessModal";
 import { ColDef, } from 'ag-grid-community';
 import { ComboBox, IComboBox, IComboBoxOption, IComboBoxStyles, IDropdownOption, IDropdownStyles, Modal } from "@fluentui/react";
+import EditAllocation from "./EditAllocation";
 
 // import { parse } from "date-fns";
 
@@ -36,9 +37,9 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
   const [getprojectEmp, setProjectEmployee] = useState<any>([]);
   const [getselectedEmp, setselectedEmp] = useState<any>([]);
   const [currentUser, setCurrentUser] = useState<any>([]);
-
-
-
+  const [updatedDate, setDateUpdated] = useState<any>([])
+  const [yearValue, setYearval] = useState("")
+console.log(yearValue)
   // weeks //
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
@@ -77,6 +78,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           "Project_ID/EndDate",
           "EmployeeId/ID",
           "EmployeeId/Name",
+          "EmployeeId/Practice",
           "EmployeeId/DeptName",
           "EmployeeId/Employee_Id",
           "EmployeeId/Designation",
@@ -88,16 +90,27 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           "Weak21", "Weak22", "Weak23", "Weak24", "Weak25", "Weak26", "Weak27", "Weak28", "Weak29", "Weak30",
           "Weak31", "Weak32", "Weak33", "Weak34", "Weak35", "Weak36", "Weak37", "Weak38", "Weak39", "Weak40",
           "Weak41", "Weak42", "Weak43", "Weak44", "Weak45", "Weak46", "Weak47", "Weak48", "Weak49", "Weak50",
-          "Weak51", "Weak52"
+          "Weak51", "Weak52",
+          "Manager1/Title",
+          "Manager1/ID",
+          "Manager2/Title",
 
         ],
-        expandFields: ["Project_ID", "EmployeeId"],
+        expandFields: ["Project_ID", "EmployeeId", "Manager1", "Manager2"],
         isRoot: true,
         filter: filterYear,
         top: 500
       });
 
-
+      let DateListItems = await _sharePointServiceProxy.getItems({
+        listName: "LastUpdatedDate",
+        fields: ["ID",
+          "LastUpdatedDate",
+        ],
+        isRoot: true,
+        top: 500
+      });
+      setDateUpdated(DateListItems)
 
 
 
@@ -109,17 +122,11 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
       }
       else if (loggedUser.Groups[0].Title === "RA_Manager") {
 
-        let newarray: any = projectListItems.filter((project: any) => {
-          return project?.Project_ID?.ProjectManager === loggedUser?.User?.Title;
-        })
+        let LoginCurrentUser = projectListItems.filter((i: any) => { return i?.Manager1?.Title === loggedUser?.User?.Title || i?.EmployeeId?.EmpEmail === loggedUser?.User?.Email })
+        setProjectsAllocation(LoginCurrentUser)
 
-        setProjectsAllocation(newarray)
 
-        //Below is using one array filter projectallocation
-        // let LoginManagerData = projectListItems.filter((i: any) => { return i?.ReportingManager1 === loggedUser?.User?.Title })
-        // setProjectsAllocation(LoginManagerData)
         setShowProjectAllocation(false)
-
       }
       else if (loggedUser.Groups[0].Title === "RA_Owner") {
         setProjectsAllocation(projectListItems)
@@ -223,10 +230,10 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
       wrapHeaderText: true,
     },
     {
-      headerName: "Primary_Skills",
-      field: "Primary_Skills",
+      headerName: "Practice",
+      field: "Practice",
       valueGetter: (params: any) => {
-        return params?.data.EmployeeId?.Primary_Skills
+        return params?.data.EmployeeId?.Practice
       },
       pinned: "left",
       width: 120,
@@ -267,47 +274,75 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
       flex: 1,
       wrapHeaderText: true,
     },
+    {
+      headerName: "Manager 1",
+      field: "Manager1.Title",
+      valueGetter: (params: any) => {
+        return params?.data.Manager1?.Title
+      },
+      pinned: "left",
+      width: 124,
+      sortable: true,
+      filter: true,
+      floatingFilter: true,
+      flex: 1,
+      wrapHeaderText: true,
+    },
+    {
+      headerName: "Manager 2",
+      field: "Manager2.Title",
+      valueGetter: (params: any) => {
+        return params?.data.Manager1?.Title
+      },
+      pinned: "left",
+      width: 124,
+      sortable: true,
+      filter: true,
+      floatingFilter: true,
+      flex: 1,
+      wrapHeaderText: true,
+    },
 
-    {
-      headerName: "StartDate",
-      field: "Project_ID/StartDate",
-      valueGetter: (params: any) => {
-        const startDate = params?.data?.Project_ID?.StartDate;
-        if (startDate) {
-          const formattedDate = moment(startDate).format("DD-MM-YY");
-          return moment(formattedDate, "DD-MM-YY", true).isValid() ? formattedDate : "-";
-        } else {
-          return "-";
-        }
-      },
-      pinned: "left",
-      width: 120,
-      sortable: true,
-      filter: true,
-      floatingFilter: true,
-      flex: 1,
-      wrapHeaderText: true,
-    },
-    {
-      headerName: "EndDate",
-      field: "Project_ID/EndDate",
-      valueGetter: (params: any) => {
-        const endDate = params?.data?.Project_ID?.EndDate;
-        if (endDate) {
-          const formattedDate = moment(endDate).format("DD-MM-YY");
-          return moment(formattedDate, "DD-MM-YY", true).isValid() ? formattedDate : "-";
-        } else {
-          return "-";
-        }
-      },
-      pinned: "left",
-      width: 120,
-      sortable: true,
-      filter: true,
-      floatingFilter: true,
-      flex: 1,
-      wrapHeaderText: true,
-    },
+    // {
+    //   headerName: "StartDate",
+    //   field: "Project_ID/StartDate",
+    //   valueGetter: (params: any) => {
+    //     const startDate = params?.data?.Project_ID?.StartDate;
+    //     if (startDate) {
+    //       const formattedDate = moment(startDate).format("DD-MM-YY");
+    //       return moment(formattedDate, "DD-MM-YY", true).isValid() ? formattedDate : "-";
+    //     } else {
+    //       return "-";
+    //     }
+    //   },
+    //   pinned: "left",
+    //   width: 120,
+    //   sortable: true,
+    //   filter: true,
+    //   floatingFilter: true,
+    //   flex: 1,
+    //   wrapHeaderText: true,
+    // },
+    // {
+    //   headerName: "EndDate",
+    //   field: "Project_ID/EndDate",
+    //   valueGetter: (params: any) => {
+    //     const endDate = params?.data?.Project_ID?.EndDate;
+    //     if (endDate) {
+    //       const formattedDate = moment(endDate).format("DD-MM-YY");
+    //       return moment(formattedDate, "DD-MM-YY", true).isValid() ? formattedDate : "-";
+    //     } else {
+    //       return "-";
+    //     }
+    //   },
+    //   pinned: "left",
+    //   width: 120,
+    //   sortable: true,
+    //   filter: true,
+    //   floatingFilter: true,
+    //   flex: 1,
+    //   wrapHeaderText: true,
+    // },
     // weaks 
     {
       headerName: `Weak1 ${startdates(1)}`,
@@ -809,7 +844,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
       children: [
         {
           field: "Billiability",
-          colId:'Billiability_15',
+          colId: 'Billiability_15',
           headerClass: "customcss",
           editable: (currentUser && currentUser.Groups && currentUser.Groups.length === 0)
             || (currentUser && currentUser.Groups && currentUser.Groups.length > 0 && currentUser.Groups[0].Title === "RA_Manager") ? false : true,
@@ -835,7 +870,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
             return data === undefined ? null : data + "%";
           },
           cellClass: (params: any) => ['customcss'],
-          colId:'Utilization_15',
+          colId: 'Utilization_15',
         },
       ]
     },
@@ -2101,7 +2136,16 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           cellClass: (params: any) => ['customcss'],
         },
       ]
-    }
+    },
+    {
+      headerName: "Edit",
+      field: "Image",
+      cellRenderer: EditAllocation,
+      // cellRenderer: PopupCellRenderer,
+      // cellRenderer:EmployeeIcons,
+      cellRendererParams: { context: props?.context, webURL: props?.webURL, getProjectAllocationListData: getProjectAllocationListData },
+      width: 120,
+    },
   ];
 
 
@@ -2133,7 +2177,12 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
     await _sharePointServiceProxy
       .updateItem("ProjectsAllocations", data.ID, jsondata, [], true)
       .then((res) => {
-        getProjectAllocationListData("");
+        if (data?.Year === '2023') {
+          getProjectAllocationListData(data?.Year);
+        }
+        else {
+          getProjectAllocationListData('')
+        }
       });
   }
 
@@ -2165,29 +2214,35 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
 
 
   async function addAllocateResource() {
-if(validate()){
-    let isemployeeallocatedwithsameproject = (getprojectEmp.filter((ftr: any) => ftr?.EmployeeName === getselectedEmp).length > 0)
-    if (isemployeeallocatedwithsameproject) {
-     setShow(false)
-      setUpdateModal("ProjectAllocated")
-    }
-    else {
-      await _sharePointServiceProxy.addItem("ProjectsAllocations", ProjectWithEmployee, [], true).then(() => {
-        setGlobalMsg(false);
+    if (validate()) {
+      let isemployeeallocatedwithsameproject = (getprojectEmp.filter((ftr: any) => ftr?.EmployeeName === getselectedEmp).length > 0)
+      if (isemployeeallocatedwithsameproject) {
+        setShow(false)
+        setUpdateModal("ProjectAllocated")
         setProjectWithEmployee({
           Project_IDId: "", EmployeeIdId: "", Year: `${new Date().getFullYear()}`, Billiability: "",
           BillableFrom: "",
           BillableTill: "",
           Utilization_Percent: "",
         });
-        setShow(false)        
-        getProjectAllocationListData("")
-        setUpdateModal("ProjectUpdated");
-        
-      });
+      }
+      else {
+        await _sharePointServiceProxy.addItem("ProjectsAllocations", ProjectWithEmployee, [], true).then(() => {
+          setGlobalMsg(false);
+          setProjectWithEmployee({
+            Project_IDId: "", EmployeeIdId: "", Year: `${new Date().getFullYear()}`, Billiability: "",
+            BillableFrom: "",
+            BillableTill: "",
+            Utilization_Percent: "",
+          });
+          setShow(false)
+          getProjectAllocationListData("")
+          setUpdateModal("ProjectUpdated");
+
+        });
+      }
     }
-    }
- 
+
   }
 
   const comboBoxStyles: Partial<IComboBoxStyles> = { root: { maxWidth: 300 } };
@@ -2399,20 +2454,69 @@ if(validate()){
     dropdown: { width: 215 },
   };
 
+  // const onBtnExport = useCallback(() => {
+  //   debugger
+  //   gridRef.current.api.exportDataAsCsv({
+  //     // processCellCallback: (params: any) => {
+  //     //   // console.log("ParamsData", params.value
+  //     //   //);
+  //     //   if (params.column.colId.includes('Billiability_1') || params.column.colId.includes('Utilization_1')) {
+  //     //     return JSON.parse(params.node.data['Weak' + params.column.colId.split("_")[1]])[params.column.colId.split("_")[0]];
+  //     //   }
+  //     //   return params.value;
+  //     // },
+  //     processCellCallback: (params: any) => {
+  //       const weakIndex = parseInt(params.column.colId.split("_")[1], 10);
+  //       if (params.column.colId.includes('Billiability_') || params.column.colId.includes('Utilization_')) {
+  //         const weakData = params.node.data['Weak' + weakIndex];
+  //         if (weakData) {
+  //           return JSON.parse(weakData)[params.column.colId.split("_")[0]];
+  //         } else {
+  //           return "";
+  //         }
+  //       }
+  //       return params.value;
+  //     },
+  //   });
+
+  // }, []);
+  // const onBtnExport = useCallback(() => {
+  //   debugger
+  //   gridRef.current.api.exportDataAsCsv({
+
+  //     processCellCallback: (params: any) => {
+  //       if (params.column.colId.includes('Billiability_') || params.column.colId.includes('Utilization_')) {
+  //         const weakIndex = parseInt(params.column.colId.split("_")[1], 11) || 0;
+  //         const weakData = params.node.data['Weak' + weakIndex];
+  //         if (weakData) {
+  //           return JSON.parse(weakData)[params.column.colId.split("_")[0]];
+  //         } else {
+  //           return "";
+  //         }
+  //       }
+  //       return params.value;
+  //     },
+  //   });
+
+  // }, []);
   const onBtnExport = useCallback(() => {
-    debugger
     gridRef.current.api.exportDataAsCsv({
       processCellCallback: (params: any) => {
-       // console.log("ParamsData", params.value
-        //);
-        if (params.column.colId.include('Billiability_1') || params.column.colId.include('Utilization_1')) {
-          return JSON.parse(params.node.data['Weak' + params.column.colId.split("_")[1]])[params.column.colId.split("_")[0]];
+        if (params.column.colId.includes('Billiability_') || params.column.colId.includes('Utilization_')) {
+          const weekIndexStr = params.column.colId.split("_")[1];
+          const weakIndex = parseInt(weekIndexStr, 10) || 0;
+          const weakData = params.node.data['Weak' + weakIndex];
+          if (weakData) {
+            return JSON.parse(weakData)[params.column.colId.split("_")[0]];
+          } else {
+            return "";
+          }
         }
         return params.value;
       },
     });
-
   }, []);
+
 
   // const onBtnExport = useCallback(() => {
   //   debugger;
@@ -2420,14 +2524,14 @@ if(validate()){
   //     processCellCallback: (params: any) => {
   //       const columnId = params.column.colId;
   //       console.log("Column ID:", columnId);
-        
+
   //       if (columnId.startsWith('Billiability_') || columnId.startsWith('Utilization_')) {
   //         const weekNumber = columnId.substring(columnId.lastIndexOf('_') + 1);
   //         console.log("Week Number:", weekNumber);
-          
+
   //         const weekData = params.node.data['Weak' + weekNumber];
   //         console.log("Week Data:", weekData);
-          
+
   //         if (weekData && weekData[columnId.split("_")[0]]) {
   //           console.log("Property Value:", weekData[columnId.split("_")[0]]);
   //           return weekData[columnId.split("_")[0]];
@@ -2436,14 +2540,36 @@ if(validate()){
   //           return null;
   //         }
   //       }
-        
+
   //       return params.value;
   //     },
   //   });
   // }, []);
-  
-  
 
+  // Hide edit column
+  const onGridReady = (params: any) => {
+    const { api, columnApi } = params;
+    // Set the gridApi and columnApi to state
+    setGridApi(api);
+    setColumnApi(columnApi);
+  };
+
+  const [gridApi, setGridApi] = useState(null);
+  const [columnApi, setColumnApi] = useState(null);
+
+  useEffect(() => {
+    if (gridApi && columnApi) {
+      const columnName = 'Image'; // Replace with the actual column field name
+
+      if (showProjectAllocation) {
+        // Show the column
+        columnApi.setColumnVisible(columnName, true);
+      } else {
+        // Hide the column
+        columnApi.setColumnVisible(columnName, false);
+      }
+    }
+  }, [showProjectAllocation, gridApi, columnApi]);
   return (
     <>
       {updatemodal === "ProjectUpdated" && (
@@ -2452,19 +2578,19 @@ if(validate()){
           setModal={setUpdateModal}
           message={"ProjectAllocation Updated Successfully"}
           showModal={true}
-         
-          
+
+
         />
       )}
       {updatemodal === "ProjectAllocated" && (
         <SuccessModal
-          pageType={"Warning"}
+          pageType={"warning"}
           setModal={setUpdateModal}
           message={"Already Employee engaged with you have selected Project"}
           showModal={true}
         />
       )}
- 
+
 
       <Modal
         isOpen={show}
@@ -2497,15 +2623,15 @@ if(validate()){
                       onChange={(e: any, selected: any) => { setProjectWithEmployee({ ...ProjectWithEmployee, Project_IDId: selected.key }); getEmployeeallocatedwithProject(selected.text) }}
                     />
                     {!ProjectWithEmployee?.Project_IDId && (
-                              <p
-                                className={`${globalMsg
-                                  ? "d-block text-danger mb-0 error-feild-size"
-                                  : "d-none"
-                                  }`}
-                              >
-                                *This field is mandatory
-                              </p>
-                            )}
+                      <p
+                        className={`${globalMsg
+                          ? "d-block text-danger mb-0 error-feild-size"
+                          : "d-none"
+                          }`}
+                      >
+                        *This field is mandatory
+                      </p>
+                    )}
 
                   </div>
                   <div className="col-md-6">
@@ -2523,17 +2649,17 @@ if(validate()){
                       onChange={(e: any, selected: any) => { setProjectWithEmployee({ ...ProjectWithEmployee, EmployeeIdId: selected.key }), setselectedEmp(selected.text) }}
                     />
                     {!ProjectWithEmployee?.EmployeeIdId && (
-                              <p
-                                className={`${globalMsg
-                                  ? "d-block text-danger mb-0 error-feild-size"
-                                  : "d-none"
-                                  }`}
-                              >
-                                *This field is mandatory
-                              </p>
-                            )}
+                      <p
+                        className={`${globalMsg
+                          ? "d-block text-danger mb-0 error-feild-size"
+                          : "d-none"
+                          }`}
+                      >
+                        *This field is mandatory
+                      </p>
+                    )}
 
-                    
+
 
 
                   </div>
@@ -2559,15 +2685,15 @@ if(validate()){
 
                     />
                     {!ProjectWithEmployee?.BillableFrom && (
-                              <p
-                                className={`${globalMsg
-                                  ? "d-block text-danger mb-0 error-feild-size"
-                                  : "d-none"
-                                  }`}
-                              >
-                                *This field is mandatory
-                              </p>
-                            )}
+                      <p
+                        className={`${globalMsg
+                          ? "d-block text-danger mb-0 error-feild-size"
+                          : "d-none"
+                          }`}
+                      >
+                        *This field is mandatory
+                      </p>
+                    )}
                   </div>
                   <div className="col-md-6">
                     <label htmlFor="inputCity" className="form-label">
@@ -2588,16 +2714,16 @@ if(validate()){
                       placeholder="Billiable Till"
                       name="BillableTill"
                     />
-                   {!ProjectWithEmployee?.BillableTill && (
-                              <p
-                                className={`${globalMsg
-                                  ? "d-block text-danger mb-0 error-feild-size"
-                                  : "d-none"
-                                  }`}
-                              >
-                                *This field is mandatory
-                              </p>
-                            )}
+                    {!ProjectWithEmployee?.BillableTill && (
+                      <p
+                        className={`${globalMsg
+                          ? "d-block text-danger mb-0 error-feild-size"
+                          : "d-none"
+                          }`}
+                      >
+                        *This field is mandatory
+                      </p>
+                    )}
 
                   </div>
                   <div className="col-md-6">
@@ -2617,18 +2743,19 @@ if(validate()){
                       <option value="0">0%</option>
                       <option value="25">25%</option>
                       <option value="50">50%</option>
+                      <option value="75">75%</option>
                       <option value="100">100%</option>
                     </select>
                     {!ProjectWithEmployee?.Billiability && (
-                              <p
-                                className={`${globalMsg
-                                  ? "d-block text-danger mb-0 error-feild-size"
-                                  : "d-none"
-                                  }`}
-                              >
-                                *This field is mandatory
-                              </p>
-                            )}
+                      <p
+                        className={`${globalMsg
+                          ? "d-block text-danger mb-0 error-feild-size"
+                          : "d-none"
+                          }`}
+                      >
+                        *This field is mandatory
+                      </p>
+                    )}
                   </div>
                   <div className="col-md-6">
                     <label htmlFor="inputState" className="form-label">
@@ -2651,15 +2778,15 @@ if(validate()){
                       <option value="100">100%</option>
                     </select>
                     {!ProjectWithEmployee?.Utilization_Percent && (
-                              <p
-                                className={`${globalMsg
-                                  ? "d-block text-danger mb-0 error-feild-size"
-                                  : "d-none"
-                                  }`}
-                              >
-                                *This field is mandatory
-                              </p>
-                            )}
+                      <p
+                        className={`${globalMsg
+                          ? "d-block text-danger mb-0 error-feild-size"
+                          : "d-none"
+                          }`}
+                      >
+                        *This field is mandatory
+                      </p>
+                    )}
                   </div>
                   <div className="col-md-6">
                     <label htmlFor="inputState" className="form-label">
@@ -2711,7 +2838,53 @@ if(validate()){
       <div className="container-fluid">
         <div className="main-container">
           <div className="row mt-4 pt-2 mx-0">
-            <div className="col-6">
+            <div className="row">
+              <div className="col-md-12">
+                <div className="row">
+                  <div className="col-md-3">
+                    <div className="custom-card">
+                      {/* remove card class */}
+                      <div className="card-body">
+                        <div className="row">
+                          <div className="event-box d-flex">
+                            <div className="ribbon">
+                              <span className="ribbon3">Last Updated On</span>
+                            </div>
+                            {/* <div className="event-date">
+                                                <div className="ribbon">
+                                                    <p className="ribbon2">Announcements</p>
+                                                </div>
+                                            </div> */}
+                            <div className="marquee-container">
+                              {/* {announcements.length > 0 ? ( */}
+                              <div className="marquee-container">
+                                <div className="marquee-content d-flex">
+
+                                  {/* {announcements.map((item, index) => ( */}
+                                  <div className=' pe-3'>
+                                    <span className="red-dot ">{moment(updatedDate[0]?.LastUpdatedDate).format("DD-MM-YYYY")}</span>
+                                  </div>
+                                  {/* // <li  key={index} className='py-2 pe-3 '>{item.Title}</li> */}
+                                  {/* ))} */}
+
+                                </div>
+                              </div>
+                              {/* ) : (
+                                    <div>No announcements to display</div>
+                                  )} */}
+
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <div className="col-md-6">
               <div className="d-flex">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -2746,16 +2919,20 @@ if(validate()){
                     </span>
                   </h3>
                 </div>
-                <div className="col-6 text-end">
-                  <button
-                    className="btn btn-primary mb-2 pt-2 ms-1 me-1 "
-                    onClick={onBtnExport}
-                  >
-                    Download Bench Report
-                  </button>
-                </div>
+
               </div>
             </div>
+            {showProjectAllocation &&
+              <div className="col-md-6 p-1 text-end">
+
+                <button
+                  className="btn btn-primary mt-2"
+                  onClick={onBtnExport}
+                >
+                  Download Allocation Report
+                </button>
+              </div>}
+
           </div>
 
           <><div>
@@ -2763,15 +2940,17 @@ if(validate()){
               <div className="col-md-12">
                 <div className="card shadow">
                   <div className="card-body ">
+
+
                     <div className="align-items-center d-flex justify-content-end">
-                      <select name="select" id="select" className="form-select w-auto mb-1" onChange={(e) => getProjectAllocationListData(e.target.value)}>
+                      <select name="select" id="select" className="form-select w-auto mb-1" onChange={(e) => { getProjectAllocationListData(e.target.value), setYearval(e.target.value) }}>
                         <option value={`${new Date().getFullYear()}`}>{new Date().getFullYear()}</option>
                         <option value="2023">{new Date().getFullYear() - 1}</option>
-                        <option value="2022">{new Date().getFullYear() - 2}</option>
+                        {/* <option value="2022">{new Date().getFullYear() - 2}</option> */}
                       </select>
-                      {showProjectAllocation &&
+                      {showProjectAllocation  &&
                         <svg
-                          onClick={() => { setShow(true) }}
+                          onClick={() => { yearValue  == "2023" ? alert('You cannot allocate project in the previous year.') : setShow(true)}}
                           xmlns="ttp://www.w3.org/2000/svg"
                           width="25"
                           height="25"
@@ -2787,7 +2966,7 @@ if(validate()){
                     <div className="row">
                       <div
                         className="ag-theme-alpine"
-                        style={{ height: 425 }}
+                        style={{ height: 385 }}
                       >
                         <AgGridReact
                           ref={gridRef}
@@ -2795,6 +2974,7 @@ if(validate()){
                           columnDefs={columnDefs}
                           defaultColDef={defaultColDef}
                           onCellValueChanged={weakCellValueChanged}
+                          onGridReady={onGridReady}
                         ></AgGridReact>
                       </div>
                     </div>
