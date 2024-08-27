@@ -188,10 +188,10 @@ console.log(yearValue)
   const startdates = (weekno: number) => {
     let startdateofweek = moment(moment().week(weekno))
       .startOf("isoWeek")
-      .format("MM/DD");
+      .format("MMM/DD");
     let endDateofWeek = moment(moment(moment().week(weekno)).endOf("isoWeek"))
       // .subtract(2, "days")
-      .format("MM/DD");
+      .format("MMM/DD");
     // console.log(`${startdateofweek}, ${endDateofWeek}`);
 
     return `${startdateofweek} - ${endDateofWeek}`;
@@ -292,7 +292,7 @@ console.log(yearValue)
       headerName: "Manager 2",
       field: "Manager2.Title",
       valueGetter: (params: any) => {
-        return params?.data.Manager1?.Title
+        return params?.data.Manager2?.Title
       },
       pinned: "left",
       width: 124,
@@ -345,7 +345,7 @@ console.log(yearValue)
     // },
     // weaks 
     {
-      headerName: `Weak1 ${startdates(1)}`,
+      headerName: `Week1 ${startdates(1)}`,
       headerClass: "customcss",
       children: [
         {
@@ -383,7 +383,7 @@ console.log(yearValue)
       ]
     },
     {
-      headerName: `Weak2 ${startdates(2)}`,
+      headerName: `Week2 ${startdates(2)}`,
       headerClass: "customcss",
       children: [
         {
@@ -419,7 +419,7 @@ console.log(yearValue)
       ]
     },
     {
-      headerName: `Weak3 ${startdates(3)}`,
+      headerName: `Week3 ${startdates(3)}`,
       headerClass: "customcss",
       children: [
         {
@@ -455,7 +455,7 @@ console.log(yearValue)
       ]
     },
     {
-      headerName: `Weak4 ${startdates(4)}`,
+      headerName: `Week4 ${startdates(4)}`,
       headerClass: "customcss",
       children: [
         {
@@ -491,7 +491,7 @@ console.log(yearValue)
       ]
     },
     {
-      headerName: `Weak5 ${startdates(5)}`,
+      headerName: `Week5 ${startdates(5)}`,
       headerClass: "customcss",
       children: [
         {
@@ -527,7 +527,7 @@ console.log(yearValue)
       ]
     },
     {
-      headerName: `Weak6 ${startdates(6)}`,
+      headerName: `Week6 ${startdates(6)}`,
       headerClass: "customcss",
       children: [
         {
@@ -563,7 +563,7 @@ console.log(yearValue)
       ]
     },
     {
-      headerName: `Weak7 ${startdates(7)}`,
+      headerName: `Week7 ${startdates(7)}`,
       headerClass: "customcss",
       children: [
         {
@@ -599,7 +599,7 @@ console.log(yearValue)
       ]
     },
     {
-      headerName: `Weak8 ${startdates(8)}`,
+      headerName: `Week8 ${startdates(8)}`,
       headerClass: "customcss",
       children: [
         {
@@ -635,7 +635,7 @@ console.log(yearValue)
       ]
     },
     {
-      headerName: `Weak9 ${startdates(9)}`,
+      headerName: `Week9 ${startdates(9)}`,
       headerClass: "customcss",
       children: [
         {
@@ -669,7 +669,7 @@ console.log(yearValue)
       ]
     },
     {
-      headerName: `Weak10 ${startdates(10)}`,
+      headerName: `Week10 ${startdates(10)}`,
       headerClass: "customcss",
       children: [
         {
@@ -703,7 +703,7 @@ console.log(yearValue)
       ]
     },
     {
-      headerName: `Weak11 ${startdates(11)}`,
+      headerName: `Week11 ${startdates(11)}`,
       headerClass: "customcss",
       children: [
         {
@@ -737,7 +737,7 @@ console.log(yearValue)
       ]
     },
     {
-      headerName: `Weak12 ${startdates(12)}`,
+      headerName: `Week12 ${startdates(12)}`,
       headerClass: "customcss",
       children: [
         {
@@ -771,7 +771,7 @@ console.log(yearValue)
       ]
     },
     {
-      headerName: `Weak13 ${startdates(13)}`,
+      headerName: `Week13 ${startdates(13)}`,
       headerClass: "customcss",
       children: [
         {
@@ -805,7 +805,7 @@ console.log(yearValue)
       ]
     },
     {
-      headerName: `Weak14 ${startdates(14)}`,
+      headerName: `Week14 ${startdates(14)}`,
       headerClass: "customcss",
       children: [
         {
@@ -839,7 +839,7 @@ console.log(yearValue)
       ]
     },
     {
-      headerName: `Weak15 ${startdates(15)}`,
+      headerName: `Week15 ${startdates(15)}`,
       headerClass: "customcss",
       children: [
         {
@@ -875,7 +875,7 @@ console.log(yearValue)
       ]
     },
     {
-      headerName: `Weak16 ${startdates(16)}`,
+      headerName: `Week16 ${startdates(16)}`,
       headerClass: "customcss",
       children: [
         {
@@ -909,7 +909,7 @@ console.log(yearValue)
       ]
     },
     {
-      headerName: `Weak17 ${startdates(17)}`,
+      headerName: `Week17 ${startdates(17)}`,
       headerClass: "customcss",
       children: [
         {
@@ -943,7 +943,7 @@ console.log(yearValue)
       ]
     },
     {
-      headerName: `Weak18 ${startdates(18)}`,
+      headerName: `Week18 ${startdates(18)}`,
       headerClass: "customcss",
       children: [
         {
@@ -977,7 +977,7 @@ console.log(yearValue)
       ]
     },
     {
-      headerName: `Weak19 ${startdates(19)}`,
+      headerName: `Week19 ${startdates(19)}`,
       headerClass: "customcss",
       children: [
         {
@@ -1011,7 +1011,7 @@ console.log(yearValue)
       ]
     },
     {
-      headerName: `Weak20 ${startdates(20)}`,
+      headerName: `Week20 ${startdates(20)}`,
       headerClass: "customcss",
       children: [
         {
@@ -1045,7 +1045,7 @@ console.log(yearValue)
       ]
     },
     {
-      headerName: `Weak21 ${startdates(21)}`,
+      headerName: `Week21 ${startdates(21)}`,
       headerClass: "customcss",
       children: [
         {
@@ -1079,7 +1079,7 @@ console.log(yearValue)
       ]
     },
     {
-      headerName: `Weak22 ${startdates(22)}`,
+      headerName: `Week22 ${startdates(22)}`,
       headerClass: "customcss",
       children: [
         {
@@ -1113,7 +1113,7 @@ console.log(yearValue)
       ]
     },
     {
-      headerName: `Weak23 ${startdates(23)}`,
+      headerName: `Week23 ${startdates(23)}`,
       headerClass: "customcss",
       children: [
         {
@@ -1147,7 +1147,7 @@ console.log(yearValue)
       ]
     },
     {
-      headerName: `Weak24 ${startdates(24)}`,
+      headerName: `Week24 ${startdates(24)}`,
       headerClass: "customcss",
       children: [
         {
@@ -1181,7 +1181,7 @@ console.log(yearValue)
       ]
     },
     {
-      headerName: `Weak25 ${startdates(25)}`,
+      headerName: `Week25 ${startdates(25)}`,
       headerClass: "customcss",
       children: [
         {
@@ -1215,7 +1215,7 @@ console.log(yearValue)
       ]
     },
     {
-      headerName: `Weak26 ${startdates(26)}`,
+      headerName: `Week26 ${startdates(26)}`,
       headerClass: "customcss",
       children: [
         {
@@ -1249,7 +1249,7 @@ console.log(yearValue)
       ]
     },
     {
-      headerName: `Weak27 ${startdates(27)}`,
+      headerName: `Week27 ${startdates(27)}`,
       headerClass: "customcss",
       children: [
         {
@@ -1283,7 +1283,7 @@ console.log(yearValue)
       ]
     },
     {
-      headerName: `Weak28 ${startdates(28)}`,
+      headerName: `Week28 ${startdates(28)}`,
       headerClass: "customcss",
       children: [
         {
@@ -1317,7 +1317,7 @@ console.log(yearValue)
       ]
     },
     {
-      headerName: `Weak29 ${startdates(29)}`,
+      headerName: `Week29 ${startdates(29)}`,
       headerClass: "customcss",
       children: [
         {
@@ -1351,7 +1351,7 @@ console.log(yearValue)
       ]
     },
     {
-      headerName: `Weak30 ${startdates(30)}`,
+      headerName: `Week30 ${startdates(30)}`,
       headerClass: "customcss",
       children: [
         {
@@ -1385,7 +1385,7 @@ console.log(yearValue)
       ]
     },
     {
-      headerName: `Weak31 ${startdates(31)}`,
+      headerName: `Week31 ${startdates(31)}`,
       headerClass: "customcss",
       children: [
         {
@@ -1419,7 +1419,7 @@ console.log(yearValue)
       ]
     },
     {
-      headerName: `Weak32 ${startdates(32)}`,
+      headerName: `Week32 ${startdates(32)}`,
       headerClass: "customcss",
       children: [
         {
@@ -1453,7 +1453,7 @@ console.log(yearValue)
       ]
     },
     {
-      headerName: `Weak33 ${startdates(33)}`,
+      headerName: `Week33 ${startdates(33)}`,
       headerClass: "customcss",
       children: [
         {
@@ -1487,7 +1487,7 @@ console.log(yearValue)
       ]
     },
     {
-      headerName: `Weak34 ${startdates(34)}`,
+      headerName: `Week34 ${startdates(34)}`,
       headerClass: "customcss",
       children: [
         {
@@ -1521,7 +1521,7 @@ console.log(yearValue)
       ]
     },
     {
-      headerName: `Weak35 ${startdates(35)}`,
+      headerName: `Week35 ${startdates(35)}`,
       headerClass: "customcss",
       children: [
         {
@@ -1555,7 +1555,7 @@ console.log(yearValue)
       ]
     },
     {
-      headerName: `Weak36 ${startdates(36)}`,
+      headerName: `Week36 ${startdates(36)}`,
       headerClass: "customcss",
       children: [
         {
@@ -1591,7 +1591,7 @@ console.log(yearValue)
       ]
     },
     {
-      headerName: `Weak37 ${startdates(37)}`,
+      headerName: `Week37 ${startdates(37)}`,
       headerClass: "customcss",
       children: [
         {
@@ -1625,7 +1625,7 @@ console.log(yearValue)
       ]
     },
     {
-      headerName: `Weak38 ${startdates(38)}`,
+      headerName: `Week38 ${startdates(38)}`,
       headerClass: "customcss",
       children: [
         {
@@ -1659,7 +1659,7 @@ console.log(yearValue)
       ]
     },
     {
-      headerName: `Weak39 ${startdates(39)}`,
+      headerName: `Week39 ${startdates(39)}`,
       headerClass: "customcss",
       children: [
         {
@@ -1693,7 +1693,7 @@ console.log(yearValue)
       ]
     },
     {
-      headerName: `Weak40 ${startdates(40)}`,
+      headerName: `Week40 ${startdates(40)}`,
       headerClass: "customcss",
       children: [
         {
@@ -1727,7 +1727,7 @@ console.log(yearValue)
       ]
     },
     {
-      headerName: `Weak41 ${startdates(41)}`,
+      headerName: `Week41 ${startdates(41)}`,
       headerClass: "customcss",
       children: [
         {
@@ -1762,7 +1762,7 @@ console.log(yearValue)
     },
 
     {
-      headerName: `Weak42 ${startdates(42)}`,
+      headerName: `Week42 ${startdates(42)}`,
       headerClass: "customcss",
       children: [
         {
@@ -1797,7 +1797,7 @@ console.log(yearValue)
     },
 
     {
-      headerName: `Weak43 ${startdates(43)}`,
+      headerName: `Week43 ${startdates(43)}`,
       headerClass: "customcss",
       children: [
         {
@@ -1831,7 +1831,7 @@ console.log(yearValue)
       ]
     },
     {
-      headerName: `Weak44 ${startdates(44)}`,
+      headerName: `Week44 ${startdates(44)}`,
       headerClass: "customcss",
       children: [
         {
@@ -1865,7 +1865,7 @@ console.log(yearValue)
       ]
     },
     {
-      headerName: `Weak45 ${startdates(45)}`,
+      headerName: `Week45 ${startdates(45)}`,
       headerClass: "customcss",
       children: [
         {
@@ -1899,7 +1899,7 @@ console.log(yearValue)
       ]
     },
     {
-      headerName: `Weak46 ${startdates(46)}`,
+      headerName: `Week46 ${startdates(46)}`,
       headerClass: "customcss",
       children: [
         {
@@ -1933,7 +1933,7 @@ console.log(yearValue)
       ]
     },
     {
-      headerName: `Weak47 ${startdates(47)}`,
+      headerName: `Week47 ${startdates(47)}`,
       headerClass: "customcss",
       children: [
         {
@@ -1967,7 +1967,7 @@ console.log(yearValue)
       ]
     },
     {
-      headerName: `Weak48 ${startdates(48)}`,
+      headerName: `Week48 ${startdates(48)}`,
       headerClass: "customcss",
       children: [
         {
@@ -2001,7 +2001,7 @@ console.log(yearValue)
       ]
     },
     {
-      headerName: `Weak49 ${startdates(49)}`,
+      headerName: `Week49 ${startdates(49)}`,
       headerClass: "customcss",
       children: [
         {
@@ -2036,7 +2036,7 @@ console.log(yearValue)
       ]
     },
     {
-      headerName: `Weak50 ${startdates(50)}`,
+      headerName: `Week50 ${startdates(50)}`,
       headerClass: "customcss",
       children: [
         {
@@ -2070,7 +2070,7 @@ console.log(yearValue)
       ]
     },
     {
-      headerName: `Weak51 ${startdates(51)}`,
+      headerName: `Week51 ${startdates(51)}`,
       headerClass: "customcss",
       children: [
         {
@@ -2104,7 +2104,7 @@ console.log(yearValue)
       ]
     },
     {
-      headerName: `Weak52 ${startdates(52)}`,
+      headerName: `Week52 ${startdates(52)}`,
       headerClass: "customcss",
       children: [
         {
@@ -2151,10 +2151,21 @@ console.log(yearValue)
 
   // json object onchange 
 
-  async function weakCellValueChanged(params: any) {
-    let updatecolumnvalue = params.column.originalParent.colGroupDef.headerName.split(" ")[0]
-    updateProperties(params.data, updatecolumnvalue);
+  // async function weakCellValueChanged(params: any) {
+  //   let updatecolumnvalue = params.column.originalParent.colGroupDef.headerName.split(" ")[0]
+  //   updateProperties(params.data, updatecolumnvalue);
+  // }
+  const fieldNameMap: { [key: string]: string } = {};
+  for (let i = 1; i <= 52; i++) {
+    fieldNameMap[`Week${i}`] = `Weak${i}`;
   }
+
+  async function weakCellValueChanged(params: any) {
+    let updateColumnValue = params.column.originalParent.colGroupDef.headerName.split(" ")[0];
+    let backendFieldName = fieldNameMap[updateColumnValue] || updateColumnValue; // Map to backend field name
+    updateProperties(params.data, backendFieldName);
+  }
+
 
   async function updateProperties(data: any, cName: string) {
     let obj = JSON.parse(data[cName]);
@@ -2948,9 +2959,9 @@ console.log(yearValue)
                         <option value="2023">{new Date().getFullYear() - 1}</option>
                         {/* <option value="2022">{new Date().getFullYear() - 2}</option> */}
                       </select>
-                      {showProjectAllocation  &&
+                      {showProjectAllocation &&
                         <svg
-                          onClick={() => { yearValue  == "2023" ? alert('You cannot allocate project in the previous year.') : setShow(true)}}
+                          onClick={() => { yearValue == "2023" ? alert('You cannot allocate project in the previous year.') : setShow(true) }}
                           xmlns="ttp://www.w3.org/2000/svg"
                           width="25"
                           height="25"

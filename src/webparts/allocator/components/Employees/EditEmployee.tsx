@@ -106,7 +106,7 @@ const EditEmployee: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           )
           .then(() => {
             setShow(false);
-            (managerdata2.length > 0 && managerdata.length > 0) ? alert("Both Managers updated") : (managerdata2.length > 0) ? alert("Manager 2 updated") : alert("MAnager 1 updated")
+            (managerdata2.length > 0 && managerdata.length > 0) ? alert("Both Managers updated") : (managerdata2.length > 0) ? alert("Manager 2 updated") : alert("Manager 1 updated")
             getToken()
             // setOpenModal("updatedSuccessfully")
             // setUpdateModal("EmployeeUpdated");
@@ -600,7 +600,7 @@ const EditEmployee: React.FunctionComponent<IAllocatorProps> = (props: any) => {
                         groupName={""} // Leave this blank in case you want to filter from all users    
                         // showtooltip={true}
                         // required={true}
-                        defaultSelectedUsers={[editData?.Manager1.title]}
+                        defaultSelectedUsers={[editData?.Manager1?.title]}
                         disabled={false}
                         ensureUser={true}
                         onChange={handleManager1}
@@ -609,7 +609,7 @@ const EditEmployee: React.FunctionComponent<IAllocatorProps> = (props: any) => {
 
                       />
                       :
-                      <p onClick={() => editRow('Manager1', editData?.ID, editData?.EmployeeName)} className='d-flex justify-content-between rounded-2' style={{ border: "1px solid lightgrey" }}>
+                      <p onClick={() => editRow('Manager1', editData?.ID, editData?.Name)} className='d-flex justify-content-between rounded-2' style={{ border: "1px solid lightgrey" }}>
                         {/* <img src="../SiteAssets/AssetImages/edit_calendar.svg" className="cursor-point" /> */}
 
                         {editData?.Manager1?.Title}
@@ -636,7 +636,7 @@ const EditEmployee: React.FunctionComponent<IAllocatorProps> = (props: any) => {
                         groupName={""} // Leave this blank in case you want to filter from all users    
                         // showtooltip={true}
                         // required={true}
-                        defaultSelectedUsers={[editData?.Manager2.title]}
+                        defaultSelectedUsers={[editData?.Manager2?.title]}
                         disabled={false}
                         ensureUser={true}
                         onChange={handleManager2}
@@ -645,7 +645,7 @@ const EditEmployee: React.FunctionComponent<IAllocatorProps> = (props: any) => {
 
                       />
                       :
-                      <p onClick={() => editRow('Manager2', editData?.ID, editData?.EmployeeName)} className='d-flex justify-content-between rounded-2' style={{ border: "1px solid lightgrey" }}>
+                      <p onClick={() => editRow('Manager2', editData?.ID, editData?.Name)} className='d-flex justify-content-between rounded-2' style={{ border: "1px solid lightgrey" }}>
                         {/* <img src="../SiteAssets/AssetImages/edit_calendar.svg" className="cursor-point" /> */}
 
                         {editData?.Manager2?.Title}

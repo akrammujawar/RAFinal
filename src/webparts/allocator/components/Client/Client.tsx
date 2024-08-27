@@ -84,7 +84,7 @@ const Client: React.FunctionComponent<IAllocatorProps> = (props: any) => {
       headerName: "Name",
       field: "Name",
       sortable: true,
-      width: 350,
+      width: 250,
       filter: true,
       editable: true,
       floatingFilter: true,
@@ -98,7 +98,7 @@ const Client: React.FunctionComponent<IAllocatorProps> = (props: any) => {
       editable: true,
       filter: true,
       floatingFilter: true,
-      width: 330,
+      width: 200,
       cellStyle: { borderRight: "1px solid #dde2eb" },
     },
 
@@ -109,7 +109,7 @@ const Client: React.FunctionComponent<IAllocatorProps> = (props: any) => {
       filter: true,
       editable: true,
       floatingFilter: true,
-      width: 330,
+      width: 200,
       cellStyle: { borderRight: "1px solid #dde2eb" },
     },
     {
@@ -119,7 +119,7 @@ const Client: React.FunctionComponent<IAllocatorProps> = (props: any) => {
       filter: true,
       floatingFilter: true,
       editable: true,
-      width: 330,
+      width: 200,
       cellStyle: { borderRight: "1px solid #dde2eb" },
     },
     {
@@ -129,7 +129,7 @@ const Client: React.FunctionComponent<IAllocatorProps> = (props: any) => {
       filter: true,
       floatingFilter: true,
       editable: true,
-      width: 330,
+      width: 250,
       cellStyle: { borderRight: "1px solid #dde2eb" },
     },
 
@@ -140,7 +140,7 @@ const Client: React.FunctionComponent<IAllocatorProps> = (props: any) => {
       sortable: true,
       filter: true,
       floatingFilter: true,
-      width: 330,
+      width: 300,
       cellStyle: { borderRight: "1px solid #dde2eb" },
     },
     {
@@ -150,7 +150,7 @@ const Client: React.FunctionComponent<IAllocatorProps> = (props: any) => {
       filter: true,
       floatingFilter: true,
       editable: true,
-      width: 330,
+      width: 250,
       cellStyle: { borderRight: "1px solid #dde2eb" },
     },
     {
@@ -160,7 +160,7 @@ const Client: React.FunctionComponent<IAllocatorProps> = (props: any) => {
       filter: true,
       floatingFilter: true,
       editable: true,
-      width: 330,
+      width: 200,
       cellStyle: { borderRight: "1px solid #dde2eb" },
     },
     {

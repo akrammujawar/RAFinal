@@ -129,6 +129,7 @@ const Projects: React.FunctionComponent<IAllocatorProps> = (props: any) => {
       width: 250,
       filter: true,
       floatingFilter: true,
+      pinned:"left",
       cellStyle: { borderRight: "1px solid #dde2eb" },
     },
     {
