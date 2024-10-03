@@ -31,6 +31,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
     BillableFrom: "",
     BillableTill: "",
     Utilization_Percent: "",
+    Month: "",
   });
   const [globalMsg, setGlobalMsg] = useState<boolean>(false);
   const [updatemodal, setUpdateModal] = useState<string>("");
@@ -39,7 +40,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
   const [currentUser, setCurrentUser] = useState<any>([]);
   const [updatedDate, setDateUpdated] = useState<any>([])
   const [yearValue, setYearval] = useState("")
-console.log(yearValue)
+  console.log(yearValue)
   // weeks //
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
@@ -54,6 +55,12 @@ console.log(yearValue)
   }, []);
 
   // get ProjectAllocation 
+  function convertDateToMonth(date:any){
+    const parsedDate = new Date(date);
+        const month = parsedDate.getMonth();
+        const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+       return monthNames[month];
+  }
   async function getProjectAllocationListData(year: any) {
     try {
       let loggedUser = await _sharePointServiceProxy.getCurrentUser().then((res: any) => {
@@ -94,7 +101,10 @@ console.log(yearValue)
           "Manager1/Title",
           "Manager1/ID",
           "Manager2/Title",
-
+          // "BillableFrom",
+          // "BillableTill",
+          // "Billiability",
+          // "Utilization_Percent",
         ],
         expandFields: ["Project_ID", "EmployeeId", "Manager1", "Manager2"],
         isRoot: true,
@@ -2181,10 +2191,16 @@ console.log(yearValue)
     } else if (data.Utilization !== undefined) {
       obj.Utilization = data.Utilization;
     }
-    // return JSON.stringify(obj);
+    // return JSON.stringify(obj); 
     const jsondata: { [key: string]: string } = {};
     jsondata[cName] = JSON.stringify(obj);
-
+    const weekNumber = parseInt(cName.replace(/\D/g, ''), 10);
+    const month = moment().week(weekNumber).startOf("isoWeek").format("MMM");
+    if (data.Utilization !== undefined && data.Utilization !== "0") {
+    jsondata['Month'] = month;
+    }else{
+    jsondata['Month'] = null;
+    }
     await _sharePointServiceProxy
       .updateItem("ProjectsAllocations", data.ID, jsondata, [], true)
       .then((res) => {
@@ -2286,7 +2302,7 @@ console.log(yearValue)
     //   [inputName]: date,
     // });
     setProjectWithEmployee((prev: any) => {
-      return { ...prev, [inputName]: date };
+      return { ...prev, [inputName]: date, Month: convertDateToMonth(date) };
     });
   };
 
