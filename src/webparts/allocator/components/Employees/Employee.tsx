@@ -77,6 +77,7 @@ const Employee: React.FunctionComponent<IAllocatorProps> = (props) => {
         ],
         isRoot: true,
         filter: `Active eq 'Yes'`,
+        top: 5000,
         expandFields: ["Manager1", "Manager2"],
       });
       setRowData(items)

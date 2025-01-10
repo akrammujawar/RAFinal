@@ -79,7 +79,8 @@ const QuickReport: React.FunctionComponent<IAllocatorProps> = (props: any) => {
       ],
       expandFields: ["Project_ID", "EmployeeId"],
       isRoot: true,
-      filter: filterYear
+      filter: filterYear,
+      top: 5000,
     });
     setProjectsAllocation(projectListItems)
   }

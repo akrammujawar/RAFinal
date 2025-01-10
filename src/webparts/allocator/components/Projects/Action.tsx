@@ -41,14 +41,14 @@ const action: React.FunctionComponent<IAllocatorProps> = (props: any) => {
 async function getProjectManagerTypeahed() {
     let items = await _SharepointServiceProxy.getItems({
       listName: "ProjectManager",
-      fields: ["ProjectManger/Title", "ID"],
+      fields: ["ProjectManger/Title","ProjectManger/ID", "ID"],
       isRoot: true,
       expandFields:["ProjectManger"]
     });
     // console.log(items);
     // setemployeeId(items);
     let partialArr = items.map((e: any) => ({
-      key: e?.ProjectManger?.Title,
+      key: e?.ProjectManger?.ID,
       text: e?.ProjectManger?.Title,
     }));
     setemployeelist(_.uniqWith(partialArr, _.isEqual));
@@ -58,14 +58,14 @@ async function getProjectManagerTypeahed() {
   async function getProjectLeadTypeahed() {
     let items = await _SharepointServiceProxy.getItems({
       listName: "ProjectLead",
-      fields: ["ProjectLead/Title"],
+      fields: ["ProjectLead/Title","ProjectLead/ID"],
       isRoot: true,
       expandFields:["ProjectLead"]
     });
     // console.log(items);
     // setemployeeId(items);
     let partialArr = items.map((e: any) => ({
-      key: e?.ProjectLead?.Title,
+      key: e?.ProjectLead?.ID,
       text: e?.ProjectLead?.Title,
     }));
     setLeadList(_.uniqWith(partialArr, _.isEqual));
@@ -129,7 +129,7 @@ async function getProjectManagerTypeahed() {
 
 
   const onChangeFormVal = (e: any, colName: string) => {
-    colName === 'ProjectManager' ||  colName === 'ProjectLeadName' || colName === "ClientNames" ? 
+    colName === 'project_ManagerId' ||  colName === 'ProjectLeadId' || colName === "ClientNames" ? 
     setUpdateDetails((prev: any) => {
       return { ...prev, [colName]: e.key};
     }) :
@@ -253,7 +253,7 @@ async function getProjectManagerTypeahed() {
                               autoComplete="on"
                             //   onChange={onChangeProjectLeadUpdateTypeHead}
                               onChange={(e, val) => {
-                                onChangeFormVal(val, "ProjectManager");
+                                onChangeFormVal(val, "project_ManagerId");
                               }}
                             />
                   </div>
@@ -284,7 +284,7 @@ async function getProjectManagerTypeahed() {
                               autoComplete="on"
                             //   onChange={onChangeProjectLeadUpdateTypeHead}
                               onChange={(e,val) => {
-                                onChangeFormVal(val, "ProjectLeadName");
+                                onChangeFormVal(val, "ProjectLeadId");
                               }}
                             />
                   </div>
@@ -475,7 +475,7 @@ async function getProjectManagerTypeahed() {
                         </option>
                         <option value="Not Started">Not Started</option>
                         <option value="Completed">Completed</option>
-                        <option value="InProgress">InProgress</option>
+                        <option value="In Progress">In Progress</option>
                       </select>
                     </div>
                   </div>

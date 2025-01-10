@@ -67,8 +67,8 @@ const Projects: React.FunctionComponent<IAllocatorProps> = (props: any) => {
     ProjectName: "",
     StartDate: "",
     EndDate: "",
-    ProjectManager: "",
-    ProjectLeadName: "",
+    project_ManagerId: 0,
+    ProjectLeadId: 0,
     Status: "",
     ProjectsType: "",
     ActualEfforts: "",
@@ -158,7 +158,7 @@ const Projects: React.FunctionComponent<IAllocatorProps> = (props: any) => {
     },
     {
       headerName: "Project Manager",
-      field: "ProjectManager",
+      field: "project_Manager.Title",
       sortable: true,
       filter: true,
       floatingFilter: true,
@@ -167,7 +167,7 @@ const Projects: React.FunctionComponent<IAllocatorProps> = (props: any) => {
     },
     {
       headerName: "Project Lead",
-      field: "ProjectLeadName",
+      field: "ProjectLead.Title",
       sortable: true,
       filter: true,
       floatingFilter: true,
@@ -213,8 +213,8 @@ const Projects: React.FunctionComponent<IAllocatorProps> = (props: any) => {
         "ProjectName",
         "StartDate",
         "EndDate",
-        "ProjectLeadName",
-        "ProjectManager",
+        "ProjectLead/Title",
+        "project_Manager/Title",
         "ClientName/Name",
         "Status",
         "ClientNames",
@@ -232,7 +232,7 @@ const Projects: React.FunctionComponent<IAllocatorProps> = (props: any) => {
         "ClientNames",
         "ProjectsType",
       ],
-      expandFields: ["ClientName", "Domain", "Technology", "Geography"],
+      expandFields: ["ClientName", "Domain", "Technology", "Geography","project_Manager/Title","ProjectLead/Title"],
       isRoot: true,
       orderedColumn: "Created",
     }, false);
@@ -449,7 +449,7 @@ const Projects: React.FunctionComponent<IAllocatorProps> = (props: any) => {
     index?: number,
     value?: string
   ): void => {
-    setData({ ...data, ProjectManager: value });
+    setData({ ...data, project_ManagerId: option?.key });
   };
 
 
@@ -467,14 +467,14 @@ const Projects: React.FunctionComponent<IAllocatorProps> = (props: any) => {
   async function getProjectManagerType() {
     let items = await _SharepointServiceProxy.getItems({
       listName: "ProjectManager",
-      fields: ["ProjectManger/Title", "ID"],
+      fields: ["ProjectManger/Title", "ID","ProjectManger/ID"],
       isRoot: true,
       expandFields: ["ProjectManger"],
     });
     // console.log(items);
     setemployeeId(items);
     let partialArr = items.map((e: any) => ({
-      key: e?.ProjectManger?.Title,
+      key: e?.ProjectManger?.ID,
       text: e?.ProjectManger?.Title,
     }));
     setManagerList(_.uniqWith(partialArr, _.isEqual));
@@ -485,17 +485,17 @@ const Projects: React.FunctionComponent<IAllocatorProps> = (props: any) => {
   async function getProjectLeadTypeahed() {
     let items = await _SharepointServiceProxy.getItems({
       listName: "ProjectLead",
-      fields: ["ProjectLead/Title", "ID"],
+      fields: ["ProjectLead/Title","ProjectLead/ID", "ID"],
       isRoot: true,
       expandFields: ["ProjectLead"],
     });
-    // console.log(items);
     // setProjectLead(items);
     // console.log("Lead list data...", items);
     let partialArr = items.map((e: any) => ({
-      key: e?.ProjectLead?.Title,
+      key: e?.ProjectLead?.ID,
       text: e?.ProjectLead?.Title,
     }));
+    console.log(partialArr);
     setleadlist(_.uniqWith(partialArr, _.isEqual));
   }
 
@@ -505,7 +505,7 @@ const Projects: React.FunctionComponent<IAllocatorProps> = (props: any) => {
     index?: number,
     value?: string
   ): void => {
-    setData({ ...data, ProjectLeadName: value });
+    setData({ ...data, ProjectLeadId: option.key });
   };
 
   const onChangeProjectLeadUpdateTypeHead = (
@@ -1162,7 +1162,7 @@ const Projects: React.FunctionComponent<IAllocatorProps> = (props: any) => {
                                 </option>
                                 <option value="Not Started">Not Started</option>
                                 {/* <option value="Not Assigned">Not Assigned</option> */}
-                                <option value="InProgress">InProgress</option>
+                                <option value="In Progress">In Progress</option>
                                 <option value="Completed">Completed</option>
                               </select>
                             </div>
@@ -1604,7 +1604,7 @@ const Projects: React.FunctionComponent<IAllocatorProps> = (props: any) => {
                                     Not Started
                                   </option>
                                   {/* <option value="Not Assigned">Not Assigned</option> */}
-                                  <option value="InProgress">InProgress</option>
+                                  <option value="In Progress">In Progress</option>
                                   <option value="Completed">Completed</option>
                                 </select>
                               </div>

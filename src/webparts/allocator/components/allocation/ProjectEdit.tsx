@@ -254,6 +254,7 @@ const ProjectEdit: React.FunctionComponent<IAllocatorProps> = (props: any) => {
       expandFields: ["Project_Id", "Employee_ID"],
       // filter: `Project_Id/ProjectName eq '${projdetails?.ProjectName}'`,
       isRoot: true,
+      top: 5000,
     });
 
     setEdit(items);
@@ -344,6 +345,7 @@ const ProjectEdit: React.FunctionComponent<IAllocatorProps> = (props: any) => {
       fields: ["Name", "Employee_Id", "ID"],
       orderedColumn: "Created",
       isRoot: true,
+      top: 5000,
     });
     setEmployeetData(items);
     console.log(employeedata);
@@ -455,6 +457,7 @@ const ProjectEdit: React.FunctionComponent<IAllocatorProps> = (props: any) => {
       listName: "Employee",
       fields: ["Employee_Id", "Name", "ID","Active"],
       isRoot: true,
+      top: 5000,
     });
     setFullEmpList(items);
     // console.log("Employee data... ", items);
