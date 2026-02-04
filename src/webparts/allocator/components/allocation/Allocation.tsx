@@ -58,12 +58,12 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
   const [currentUser, setCurrentUser] = useState<any>([]);
   const [updatedDate, setDateUpdated] = useState<any>([]);
   const [yearValue, setYearval] = useState("");
-  console.log(yearValue);
+  console.log("currentUser", currentUser);
   // weeks //
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-  const [selectedWeek, setSelectedWeek] = useState<any>("");
-  console.log(selectedWeek);
+  // const [selectedWeek, setSelectedWeek] = useState<any>("");
+  // console.log(selectedWeek);
 
   var gridRef: any = useRef();
   useEffect(() => {
@@ -203,7 +203,11 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
       if (loggedUser.Groups.length === 0) {
         //  LoginFilter = `EmployeeId/EmpEmail eq ${loggedUser?.User?.Email}`
         let LoginCurrentUser = projectListItems.filter((i: any) => {
-          return i?.EmployeeId?.EmpEmail === loggedUser?.User?.Email;
+          // return i?.EmployeeId?.EmpEmail === loggedUser?.User?.Email;
+          return (
+            i?.EmployeeId?.EmpEmail?.toLowerCase() ===
+            loggedUser?.User?.Email?.toLowerCase()
+          );
         });
         setProjectsAllocation(LoginCurrentUser);
         setShowProjectAllocation(false);
@@ -233,6 +237,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
       listName: "Project",
       fields: ["ID", "ProjectName"],
       isRoot: true,
+      top: 5000,
     });
     allProjects.forEach((element: any) => {
       projets.push({
@@ -4120,8 +4125,8 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
               BillableTill: "",
               Utilization_Percent: "",
               Month: "",
-    Manager1Id: "",
-    Manager2Id: "",
+              Manager1Id: "",
+              Manager2Id: "",
             });
             setShow(false);
             getProjectAllocationListData("");
@@ -4141,7 +4146,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
     let inputName = event.target.name;
 
     setStartDate(date);
-    updateSelectedWeek(date, endDate);
+    // updateSelectedWeek(date, endDate);
     // setProjectAllocationData({
     //   ...projectAllocationData,
     //   [inputName]: date,
@@ -4180,15 +4185,15 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
     if (start && end) {
       const startOfWeek = getStartOfWeek(new Date(start));
       const endOfWeek = getEndOfWeek(new Date(end));
-      const weeks = getWeeksBetweenDates(startOfWeek, endOfWeek);
-      setSelectedWeek(weeks);
+       getWeeksBetweenDates(startOfWeek, endOfWeek);
+      // setSelectedWeek(weeks);
     } else {
-      setSelectedWeek("");
+      // setSelectedWeek("");
     }
   };
 
-  const [weekRange, setWeekRange] = useState<any[]>([]);
-  console.log(weekRange);
+  // const [weekRange, setWeekRange] = useState<any[]>([]);
+  // console.log(weekRange);
   const getWeeksBetweenDates = (start: any, end: any) => {
     const weeks = [];
     // const weeks: IDropdownOption[] = [];
@@ -4212,7 +4217,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
         })
       );
 
-      setWeekRange(options);
+      // setWeekRange(options);
     }
   };
 
@@ -4252,7 +4257,6 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
 
           // Stringify the weekData object
           const stringifiedWeekData = JSON.stringify(weekData);
-          console.log(stringifiedWeekData);
 
           // Add the stringified data to ProjectWithEmployee
           ProjectWithEmployee[week] = stringifiedWeekData;
@@ -4291,7 +4295,6 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
     let endDateofWeek = moment(moment(moment().week(weekno)).endOf("isoWeek"))
       // .subtract(2, "days")
       .format("M/D/YYYY");
-    // console.log(`${startdateofweek}, ${endDateofWeek}`);
     return `${startdateofweek}-${endDateofWeek}`;
   };
 
@@ -4304,7 +4307,6 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
       // disabled: currentWeek > i ? true : false,
     });
   }
-  //console.log("WeekOptions", WeekOptions)
 
   React.useEffect(() => {
     if (startDate && endDate) {
