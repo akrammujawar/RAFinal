@@ -59,8 +59,8 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
   const [getselectedEmp, setselectedEmp] = useState<any>([]);
   const [currentUser, setCurrentUser] = useState<any>([]);
   const [updatedDate, setDateUpdated] = useState<any>([]);
-  const [yearValue, setYearval] = useState("");
-  console.log("currentUser", currentUser);
+  const [yearValue, setYearval] = useState<string>(`${new Date().getFullYear()}`);
+
   // weeks //
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
@@ -187,6 +187,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           // "BillableTill",
           // "Billiability",
           // "Utilization_Percent",
+          // "Billable_YN",
         ],
         expandFields: ["Project_ID", "EmployeeId", "Manager1", "Manager2"],
         isRoot: true,
@@ -464,7 +465,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
             const parsedData = data ? JSON.parse(data) : null;
             return parsedData?.Billiability !== undefined
               ? parsedData.Billiability + "%"
-              : null;
+              : "";
           },
           colId: "Billiability_1",
           cellClass: (params: any) => ["customcss"],
@@ -500,7 +501,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
             const parsedData = data ? JSON.parse(data) : null;
             return parsedData?.Utilization !== undefined
               ? parsedData.Utilization + "%"
-              : null;
+              : "";
           },
           colId: "Utilization_1",
         },
@@ -537,7 +538,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak2)?.Billiability;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Billiability_2",
           cellClass: (params: any) => ["customcss"],
@@ -569,7 +570,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak2)?.Utilization;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           cellClass: (params: any) => ["customcss"],
           colId: "Utilization_2",
@@ -607,7 +608,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak3)?.Billiability;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Billiability_3",
           cellClass: (params: any) => ["customcss"],
@@ -639,7 +640,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak3)?.Utilization;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           cellClass: (params: any) => ["customcss"],
           colId: "Utilization_3",
@@ -678,7 +679,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak4)?.Billiability;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           cellClass: (params: any) => ["customcss"],
         },
@@ -710,7 +711,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak4)?.Utilization;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           cellClass: (params: any) => ["customcss"],
         },
@@ -748,7 +749,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak5)?.Billiability;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           cellClass: (params: any) => ["customcss"],
         },
@@ -780,7 +781,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak5)?.Utilization;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           cellClass: (params: any) => ["customcss"],
         },
@@ -818,7 +819,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak6)?.Billiability;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           cellClass: (params: any) => ["customcss"],
         },
@@ -850,7 +851,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak6)?.Utilization;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           cellClass: (params: any) => ["customcss"],
         },
@@ -888,7 +889,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak7)?.Billiability;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           cellClass: (params: any) => ["customcss"],
         },
@@ -920,7 +921,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak7)?.Utilization;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           cellClass: (params: any) => ["customcss"],
         },
@@ -958,7 +959,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak8)?.Billiability;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           cellClass: (params: any) => ["customcss"],
         },
@@ -990,7 +991,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak8)?.Utilization;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           cellClass: (params: any) => ["customcss"],
         },
@@ -1027,7 +1028,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak9)?.Billiability;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Billiability_9",
           cellClass: (params: any) => ["customcss"],
@@ -1059,7 +1060,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak9)?.Utilization;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Utilization_9",
           cellClass: (params: any) => ["customcss"],
@@ -1097,7 +1098,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak10)?.Billiability;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Billiability_10",
           cellClass: (params: any) => ["customcss"],
@@ -1129,7 +1130,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak10)?.Utilization;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Utilization_10",
           cellClass: (params: any) => ["customcss"],
@@ -1167,7 +1168,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak11)?.Billiability;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Billiability_11",
           cellClass: (params: any) => ["customcss"],
@@ -1199,7 +1200,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak11)?.Utilization;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Utilization_11",
           cellClass: (params: any) => ["customcss"],
@@ -1237,7 +1238,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak12)?.Billiability;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Billiability_12",
           cellClass: (params: any) => ["customcss"],
@@ -1269,7 +1270,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak12)?.Utilization;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Utilization_12",
           cellClass: (params: any) => ["customcss"],
@@ -1307,7 +1308,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak13)?.Billiability;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Billiability_13",
           cellClass: (params: any) => ["customcss"],
@@ -1339,7 +1340,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak13)?.Utilization;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Utilization_13",
           cellClass: (params: any) => ["customcss"],
@@ -1377,7 +1378,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak14)?.Billiability;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Billiability_14",
           cellClass: (params: any) => ["customcss"],
@@ -1409,7 +1410,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak14)?.Utilization;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Utilization_14",
           cellClass: (params: any) => ["customcss"],
@@ -1448,7 +1449,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak15)?.Billiability;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           cellClass: (params: any) => ["customcss"],
         },
@@ -1479,7 +1480,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak15)?.Utilization;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           cellClass: (params: any) => ["customcss"],
           colId: "Utilization_15",
@@ -1517,7 +1518,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak16)?.Billiability;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Billiability_16",
           cellClass: (params: any) => ["customcss"],
@@ -1549,7 +1550,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak16)?.Utilization;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Utilization_16",
           cellClass: (params: any) => ["customcss"],
@@ -1587,7 +1588,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak17)?.Billiability;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Billiability_17",
           cellClass: (params: any) => ["customcss"],
@@ -1619,7 +1620,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak17)?.Utilization;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Utilization_17",
           cellClass: (params: any) => ["customcss"],
@@ -1657,7 +1658,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak18)?.Billiability;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Billiability_18",
           cellClass: (params: any) => ["customcss"],
@@ -1689,7 +1690,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak18)?.Utilization;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Utilization_18",
           cellClass: (params: any) => ["customcss"],
@@ -1727,7 +1728,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak19)?.Billiability;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Billiability_19",
           cellClass: (params: any) => ["customcss"],
@@ -1759,7 +1760,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak19)?.Utilization;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Utilization_19",
           cellClass: (params: any) => ["customcss"],
@@ -1797,7 +1798,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak20)?.Billiability;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Billiability_20",
           cellClass: (params: any) => ["customcss"],
@@ -1829,7 +1830,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak20)?.Utilization;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Utilization_20",
           cellClass: (params: any) => ["customcss"],
@@ -1867,7 +1868,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak21)?.Billiability;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Billiability_21",
           cellClass: (params: any) => ["customcss"],
@@ -1899,7 +1900,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak21)?.Utilization;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Utilization_21",
           cellClass: (params: any) => ["customcss"],
@@ -1937,7 +1938,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak22)?.Billiability;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Billiability_22",
           cellClass: (params: any) => ["customcss"],
@@ -1969,7 +1970,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak22)?.Utilization;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Utilization_22",
           cellClass: (params: any) => ["customcss"],
@@ -2007,7 +2008,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak23)?.Billiability;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Billiability_23",
           cellClass: (params: any) => ["customcss"],
@@ -2039,7 +2040,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak23)?.Utilization;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Utilization_23",
           cellClass: (params: any) => ["customcss"],
@@ -2077,7 +2078,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak24)?.Billiability;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Billiability_24",
           cellClass: (params: any) => ["customcss"],
@@ -2109,7 +2110,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak24)?.Utilization;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Utilization_24",
           cellClass: (params: any) => ["customcss"],
@@ -2147,7 +2148,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak25)?.Billiability;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Billiability_25",
           cellClass: (params: any) => ["customcss"],
@@ -2179,7 +2180,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak25)?.Utilization;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Utilization_25",
           cellClass: (params: any) => ["customcss"],
@@ -2217,7 +2218,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak26)?.Billiability;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Billiability_26",
           cellClass: (params: any) => ["customcss"],
@@ -2249,7 +2250,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak26)?.Utilization;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Utilization_26",
           cellClass: (params: any) => ["customcss"],
@@ -2287,7 +2288,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak27)?.Billiability;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Billiability_27",
           cellClass: (params: any) => ["customcss"],
@@ -2319,7 +2320,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak27)?.Utilization;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Utilization_27",
           cellClass: (params: any) => ["customcss"],
@@ -2357,7 +2358,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak28)?.Billiability;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Billiability_28",
           cellClass: (params: any) => ["customcss"],
@@ -2389,7 +2390,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak28)?.Utilization;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Utilization_28",
           cellClass: (params: any) => ["customcss"],
@@ -2427,7 +2428,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak29)?.Billiability;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Billiability_29",
           cellClass: (params: any) => ["customcss"],
@@ -2459,7 +2460,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak29)?.Utilization;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Utilization_29",
           cellClass: (params: any) => ["customcss"],
@@ -2497,7 +2498,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak30)?.Billiability;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Billiability_30",
           cellClass: (params: any) => ["customcss"],
@@ -2529,7 +2530,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak30)?.Utilization;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Utilization_30",
           cellClass: (params: any) => ["customcss"],
@@ -2567,7 +2568,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak31)?.Billiability;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Billiability_31",
           cellClass: (params: any) => ["customcss"],
@@ -2599,7 +2600,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak31)?.Utilization;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Utilization_31",
           cellClass: (params: any) => ["customcss"],
@@ -2637,7 +2638,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak32)?.Billiability;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Billiability_32",
           cellClass: (params: any) => ["customcss"],
@@ -2669,7 +2670,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak32)?.Utilization;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Utilization_32",
           cellClass: (params: any) => ["customcss"],
@@ -2707,7 +2708,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak33)?.Billiability;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Billiability_33",
           cellClass: (params: any) => ["customcss"],
@@ -2739,7 +2740,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak33)?.Utilization;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Utilization_33",
           cellClass: (params: any) => ["customcss"],
@@ -2777,7 +2778,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak34)?.Billiability;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Billiability_34",
           cellClass: (params: any) => ["customcss"],
@@ -2809,7 +2810,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak34)?.Utilization;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Utilization_34",
           cellClass: (params: any) => ["customcss"],
@@ -2847,7 +2848,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak35)?.Billiability;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Billiability_35",
           cellClass: (params: any) => ["customcss"],
@@ -2879,7 +2880,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak35)?.Utilization;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Utilization_35",
           cellClass: (params: any) => ["customcss"],
@@ -2920,7 +2921,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
             const parsedData = data ? JSON.parse(data) : null;
             return parsedData?.Billiability !== undefined
               ? parsedData.Billiability + "%"
-              : null;
+              : "";
           },
           colId: "Billiability_36",
           cellClass: (params: any) => ["customcss"],
@@ -2955,7 +2956,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
             const parsedData = data ? JSON.parse(data) : null;
             return parsedData?.Utilization !== undefined
               ? parsedData.Utilization + "%"
-              : null;
+              : "";
           },
           colId: "Utilization_36",
           cellClass: (params: any) => ["customcss"],
@@ -2993,7 +2994,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak37)?.Billiability;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Billiability_37",
           cellClass: (params: any) => ["customcss"],
@@ -3025,7 +3026,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak37)?.Utilization;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Utilization_37",
           cellClass: (params: any) => ["customcss"],
@@ -3063,7 +3064,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak38)?.Billiability;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Billiability_38",
           cellClass: (params: any) => ["customcss"],
@@ -3095,7 +3096,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak38)?.Utilization;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Utilization_38",
           cellClass: (params: any) => ["customcss"],
@@ -3133,7 +3134,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak39)?.Billiability;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Billiability_39",
           cellClass: (params: any) => ["customcss"],
@@ -3165,7 +3166,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak39)?.Utilization;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Utilization_39",
           cellClass: (params: any) => ["customcss"],
@@ -3203,7 +3204,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak40)?.Billiability;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Billiability_40",
           cellClass: (params: any) => ["customcss"],
@@ -3235,7 +3236,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak40)?.Utilization;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Utilization_40",
           cellClass: (params: any) => ["customcss"],
@@ -3273,7 +3274,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak41)?.Billiability;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Billiability_41",
           cellClass: (params: any) => ["customcss"],
@@ -3305,7 +3306,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak41)?.Utilization;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Utilization_41",
           cellClass: (params: any) => ["customcss"],
@@ -3344,7 +3345,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak42)?.Billiability;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Billiability_42",
           cellClass: (params: any) => ["customcss"],
@@ -3376,7 +3377,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak42)?.Utilization;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Utilization_42",
           cellClass: (params: any) => ["customcss"],
@@ -3415,7 +3416,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak43)?.Billiability;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Billiability_43",
           cellClass: (params: any) => ["customcss"],
@@ -3447,7 +3448,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak43)?.Utilization;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Utilization_43",
           cellClass: (params: any) => ["customcss"],
@@ -3485,7 +3486,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak44)?.Billiability;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Billiability_44",
           cellClass: (params: any) => ["customcss"],
@@ -3517,7 +3518,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak44)?.Utilization;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Utilization_44",
           cellClass: (params: any) => ["customcss"],
@@ -3555,7 +3556,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak45)?.Billiability;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Billiability_45",
           cellClass: (params: any) => ["customcss"],
@@ -3587,7 +3588,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak45)?.Utilization;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Utilization_45",
           cellClass: (params: any) => ["customcss"],
@@ -3625,7 +3626,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak46)?.Billiability;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Billiability_46",
           cellClass: (params: any) => ["customcss"],
@@ -3657,7 +3658,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak46)?.Utilization;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Utilization_46",
           cellClass: (params: any) => ["customcss"],
@@ -3695,7 +3696,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak47)?.Billiability;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Billiability_47",
           cellClass: (params: any) => ["customcss"],
@@ -3727,7 +3728,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak47)?.Utilization;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Utilization_47",
           cellClass: (params: any) => ["customcss"],
@@ -3765,7 +3766,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak48)?.Billiability;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Billiability_48",
           cellClass: (params: any) => ["customcss"],
@@ -3797,7 +3798,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak48)?.Utilization;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Utilization_48",
           cellClass: (params: any) => ["customcss"],
@@ -3835,7 +3836,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak49)?.Billiability;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Billiability_49",
           cellClass: (params: any) => ["customcss"],
@@ -3867,7 +3868,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak49)?.Utilization;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Utilization_49",
           cellClass: (params: any) => ["customcss"],
@@ -3905,7 +3906,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak50)?.Billiability;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Billiability_50",
           cellClass: (params: any) => ["customcss"],
@@ -3937,7 +3938,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak50)?.Utilization;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Utilization_50",
           cellClass: (params: any) => ["customcss"],
@@ -3975,7 +3976,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak51)?.Billiability;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Billiability_51",
           cellClass: (params: any) => ["customcss"],
@@ -4007,7 +4008,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak51)?.Utilization;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Utilization_51",
           cellClass: (params: any) => ["customcss"],
@@ -4045,7 +4046,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak52)?.Billiability;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Billiability_52",
           cellClass: (params: any) => ["customcss"],
@@ -4077,7 +4078,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           width: 100,
           valueFormatter: (params: any) => {
             let data = JSON.parse(params?.data?.Weak52)?.Utilization;
-            return data === undefined ? null : data + "%";
+            return data === undefined ? "" : data + "%";
           },
           colId: "Utilization_52",
           cellClass: (params: any) => ["customcss"],
@@ -4118,17 +4119,20 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
   }
 
   async function updateProperties(data: any, cName: string) {
-    let obj = JSON.parse(data[cName]);
-    // Billability
-    if (obj?.Billiability === undefined) {
-      obj.Billiability = data.Billiability;
-    } else if (data.Billiability !== undefined) {
+    let parsed: any;
+    try {
+      parsed = JSON.parse(data[cName]);
+    } catch (e) {
+      parsed = {};
+    }
+    // If WeakN held a plain number (old format) instead of a JSON object, start fresh
+    let obj: any = (typeof parsed === 'object' && parsed !== null) ? parsed : {};
+    // Billiability
+    if (data.Billiability !== undefined) {
       obj.Billiability = data.Billiability;
     }
     // Utilization
-    if (obj?.Utilization === undefined) {
-      obj.Utilization = data.Utilization;
-    } else if (data.Utilization !== undefined) {
+    if (data.Utilization !== undefined) {
       obj.Utilization = data.Utilization;
     }
     // return JSON.stringify(obj);
@@ -4779,7 +4783,11 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
                       Manager 1
                     </label>
                     <PeoplePicker
-                      context={props.context}
+                      context={{
+                        absoluteUrl: props.context.pageContext.web.absoluteUrl,
+                        msGraphClientFactory: props.context.msGraphClientFactory,
+                        spHttpClient: props.context.spHttpClient,
+                      }}
                       personSelectionLimit={1}
                       groupName={""} // Leave this blank in case you want to filter from all users
                       // showtooltip={true}
@@ -4813,7 +4821,11 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
                       Manager 2
                     </label>
                     <PeoplePicker
-                      context={props.context}
+                      context={{
+                        absoluteUrl: props.context.pageContext.web.absoluteUrl,
+                        msGraphClientFactory: props.context.msGraphClientFactory,
+                        spHttpClient: props.context.spHttpClient,
+                      }}
                       personSelectionLimit={1}
                       groupName={""} // Leave this blank in case you want to filter from all users
                       // showtooltip={true}

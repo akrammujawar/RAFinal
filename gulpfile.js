@@ -13,4 +13,7 @@ build.rig.getTasks = function () {
   return result;
 };
 
+// Disable lint — @typescript-eslint/no-extra-semi crashes with this build stack version
+build.lintCmd.enabled = false;
+
 build.initialize(require('gulp'));

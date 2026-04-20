@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gulp bundle *)",
+      "Bash(xxd \"e:/RA/RAFinal/.eslintrc.js\")"
+    ]
+  }
+}
