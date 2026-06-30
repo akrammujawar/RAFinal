@@ -108,7 +108,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
       } else {
         filterYear = `Year eq '${new Date().getFullYear()}'`;
       }
-      let projectListItems = await _sharePointServiceProxy.getItems({
+      const projectListItems = await _sharePointServiceProxy.getItems({
         listName: "ProjectsAllocations",
         fields: [
           "ID",
@@ -119,6 +119,7 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           "Project_ID/ProjectsType",
           "Project_ID/StartDate",
           "Project_ID/EndDate",
+          "Project_ID/ProjectsType",
           "EmployeeId/ID",
           "EmployeeId/Name",
           "EmployeeId/Practice",
@@ -126,7 +127,6 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
           "EmployeeId/Employee_Id",
           "EmployeeId/Designation",
           "EmployeeId/EmpEmail",
-
           "Year",
           "Weak1",
           "Weak2",
@@ -372,6 +372,14 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
       wrapHeaderText: true,
     },
     {
+  headerName: "Project Type",
+  valueGetter: (params: any) => {
+        return params?.data.Project_ID?.ProjectsType;
+      },
+  colId: "ProjectType",
+  hide: true
+},
+    {
       headerName: "Manager 1",
       field: "Manager1.Title",
       valueGetter: (params: any) => {
@@ -400,46 +408,34 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
       wrapHeaderText: true,
     },
 
-    // {
-    //   headerName: "StartDate",
-    //   field: "Project_ID/StartDate",
-    //   valueGetter: (params: any) => {
-    //     const startDate = params?.data?.Project_ID?.StartDate;
-    //     if (startDate) {
-    //       const formattedDate = moment(startDate).format("DD-MM-YY");
-    //       return moment(formattedDate, "DD-MM-YY", true).isValid() ? formattedDate : "-";
-    //     } else {
-    //       return "-";
-    //     }
-    //   },
-    //   pinned: "left",
-    //   width: 120,
-    //   sortable: true,
-    //   filter: true,
-    //   floatingFilter: true,
-    //   flex: 1,
-    //   wrapHeaderText: true,
-    // },
-    // {
-    //   headerName: "EndDate",
-    //   field: "Project_ID/EndDate",
-    //   valueGetter: (params: any) => {
-    //     const endDate = params?.data?.Project_ID?.EndDate;
-    //     if (endDate) {
-    //       const formattedDate = moment(endDate).format("DD-MM-YY");
-    //       return moment(formattedDate, "DD-MM-YY", true).isValid() ? formattedDate : "-";
-    //     } else {
-    //       return "-";
-    //     }
-    //   },
-    //   pinned: "left",
-    //   width: 120,
-    //   sortable: true,
-    //   filter: true,
-    //   floatingFilter: true,
-    //   flex: 1,
-    //   wrapHeaderText: true,
-    // },
+    {
+      headerName: "StartDate",
+      field: "Project_ID/StartDate",
+      valueGetter: (params: any) => {
+        const startDate = params?.data?.Project_ID?.StartDate;
+        if (startDate) {
+          const formattedDate = moment(startDate).format("DD-MM-YY");
+          return moment(formattedDate, "DD-MM-YY", true).isValid() ? formattedDate : "-";
+        } else {
+          return "-";
+        }
+      },
+      hide: true,
+    },
+    {
+      headerName: "EndDate",
+      field: "Project_ID/EndDate",
+      valueGetter: (params: any) => {
+        const endDate = params?.data?.Project_ID?.EndDate;
+        if (endDate) {
+          const formattedDate = moment(endDate).format("DD-MM-YY");
+          return moment(formattedDate, "DD-MM-YY", true).isValid() ? formattedDate : "-";
+        } else {
+          return "-";
+        }
+      },
+      hide: true,
+    },
     // weaks
     {
       headerName: `Week1 ${startdates(1)}`,
@@ -4420,54 +4416,26 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
     dropdown: { width: 215 },
   };
 
-  // const onBtnExport = useCallback(() => {
-  //   debugger
-  //   gridRef.current.api.exportDataAsCsv({
-  //     // processCellCallback: (params: any) => {
-  //     //   // console.log("ParamsData", params.value
-  //     //   //);
-  //     //   if (params.column.colId.includes('Billiability_1') || params.column.colId.includes('Utilization_1')) {
-  //     //     return JSON.parse(params.node.data['Weak' + params.column.colId.split("_")[1]])[params.column.colId.split("_")[0]];
-  //     //   }
-  //     //   return params.value;
-  //     // },
-  //     processCellCallback: (params: any) => {
-  //       const weakIndex = parseInt(params.column.colId.split("_")[1], 10);
-  //       if (params.column.colId.includes('Billiability_') || params.column.colId.includes('Utilization_')) {
-  //         const weakData = params.node.data['Weak' + weakIndex];
-  //         if (weakData) {
-  //           return JSON.parse(weakData)[params.column.colId.split("_")[0]];
-  //         } else {
-  //           return "";
-  //         }
-  //       }
-  //       return params.value;
-  //     },
-  //   });
 
-  // }, []);
-  // const onBtnExport = useCallback(() => {
-  //   debugger
-  //   gridRef.current.api.exportDataAsCsv({
+ const onBtnExport = useCallback(() => {
+  try {
+    // Try to get all columns including hidden ones
+    let allColumns = [];
+    if (gridRef.current.api.getColumns) {
+      allColumns = gridRef.current.api.getColumns().map((col: any) => col.getColId());
+    } else {
+      // Fallback: manually specify columns
+      allColumns = columnDefs.flatMap((col: any) => {
+        if (col.children) {
+          return col.children.map((child: any) => child.colId || child.field);
+        }
+        return col.colId || col.field;
+      }).filter(Boolean);
+    }
 
-  //     processCellCallback: (params: any) => {
-  //       if (params.column.colId.includes('Billiability_') || params.column.colId.includes('Utilization_')) {
-  //         const weakIndex = parseInt(params.column.colId.split("_")[1], 11) || 0;
-  //         const weakData = params.node.data['Weak' + weakIndex];
-  //         if (weakData) {
-  //           return JSON.parse(weakData)[params.column.colId.split("_")[0]];
-  //         } else {
-  //           return "";
-  //         }
-  //       }
-  //       return params.value;
-  //     },
-  //   });
-
-  // }, []);
-  const onBtnExport = useCallback(() => {
     gridRef.current.api.exportDataAsCsv({
       processCellCallback: (params: any) => {
+        // Handle week columns (Billiability and Utilization)
         if (
           params.column.colId.includes("Billiability_") ||
           params.column.colId.includes("Utilization_")
@@ -4481,38 +4449,37 @@ const Allocation: React.FunctionComponent<IAllocatorProps> = (props: any) => {
             return "";
           }
         }
+        
+        // Handle hidden columns
+        if (params.column.colId === "Project_ID/StartDate" || params.column.field === "Project_ID/StartDate") {
+          const startDate = params.node.data?.Project_ID?.StartDate;
+          return startDate ? moment(startDate).format("DD-MM-YY") : "-";
+        }
+        if (params.column.colId === "Project_ID/EndDate" || params.column.field === "Project_ID/EndDate") {
+          const endDate = params.node.data?.Project_ID?.EndDate;
+          return endDate ? moment(endDate).format("DD-MM-YY") : "-";
+        }
+        if (params.column.colId === "ProjectType" || params.column.field === "ProjectType") {
+          return params.node.data?.Project_ID?.ProjectsType || "";
+        }
+        
         return params.value;
       },
+      columnKeys: allColumns,
     });
-  }, []);
+  } catch (error) {
+    console.error("Error exporting CSV:", error);
+    // Fallback export without columnKeys
+    gridRef.current.api.exportDataAsCsv({
+      processCellCallback: (params: any) => {
+        // Your processing logic here
+        return params.value;
+      }
+    });
+  }
+}, [columnDefs]);
 
-  // const onBtnExport = useCallback(() => {
-  //   debugger;
-  //   gridRef.current.api.exportDataAsCsv({
-  //     processCellCallback: (params: any) => {
-  //       const columnId = params.column.colId;
-  //       console.log("Column ID:", columnId);
-
-  //       if (columnId.startsWith('Billiability_') || columnId.startsWith('Utilization_')) {
-  //         const weekNumber = columnId.substring(columnId.lastIndexOf('_') + 1);
-  //         console.log("Week Number:", weekNumber);
-
-  //         const weekData = params.node.data['Weak' + weekNumber];
-  //         console.log("Week Data:", weekData);
-
-  //         if (weekData && weekData[columnId.split("_")[0]]) {
-  //           console.log("Property Value:", weekData[columnId.split("_")[0]]);
-  //           return weekData[columnId.split("_")[0]];
-  //         } else {
-  //           console.log("Week data or property not found");
-  //           return null;
-  //         }
-  //       }
-
-  //       return params.value;
-  //     },
-  //   });
-  // }, []);
+  
 
   // Hide edit column
   const onGridReady = (params: any) => {
